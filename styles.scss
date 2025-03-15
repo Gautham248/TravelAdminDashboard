@@ -9,6 +9,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     // border: 1px solid black;
     // border: 1px solid black;
+    // border: 1px solid black;
 }
 
 $primary-color: #3498db;
@@ -99,6 +100,40 @@ body {
 
 
 // ############################## YOUR STYLINGS GOES HERE ############################
+
+// mahesh
+
+.stats-section{
+    .stats-section-title {
+        font-size: 15px;
+        margin-left:10px;
+    }
+
+    .stats-section-totalrequests-title,
+    .stats-section-threats-title,
+    .stats-section-verified-title {
+        font-size: 14px;
+    }
+
+    .stats-section-totalrequests,
+    .stats-section-threats,
+    .stats-section-verified{
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 8px;
+        align-items: center;
+        margin: 5px;
+        height:60px;
+      
+        &-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+    
+          }
+    }
+    }
 
 //REQUESTS SECTION    #########
 $hover-color: #e6b800;
