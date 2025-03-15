@@ -7,7 +7,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border: 1px solid black;
+    // border: 1px solid black;
 }
 
 $primary-color: #3498db;
@@ -98,3 +98,98 @@ body {
 
 
 // ############################## YOUR STYLINGS GOES HERE ############################
+
+// Advait
+$todo-list-border-radius: 7px;
+.todo-list{
+    width: 100%;
+    font-size: 16px;
+    border-radius: $todo-list-border-radius;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+
+    align-items: center;
+    .heading-section{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px;
+        padding-bottom: 7px;
+        .tasks-todo{
+            padding-left: 10px;
+        }
+        .view-all{
+            padding-right: 10px;
+            color: blue;
+        }
+    }
+    .task{
+        width: 100%;
+        display: flex;
+        padding-top: 10px;
+        .date-and-time{
+            flex: 1;
+            padding-left: 10px;
+            font-size: small;
+            .date{
+                font-weight: bold;
+            }
+            .time{
+                font-weight: lighter;
+            }
+        }
+        .task-description{
+            flex: 3;
+            padding-left: 10px;
+            
+        }
+    }
+    .task-container{
+        display: flex;
+        justify-content: center;
+        padding-top: 30px;
+        
+        .new-task{
+            width: 300px;
+            height: 30px;
+            display: flex;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: $todo-list-border-radius;
+            .calendar-icon{
+                flex: 1;
+                padding-left: 9px;
+                // padding-top: 5px;
+            }
+            .add-new-task{
+                flex: 7;
+                // padding-top: 5px;
+                padding-bottom: 5px;
+                #task-input{
+                    border: none;
+                    outline: none;
+                    background-color: inherit;
+                    height: 100%;
+                    width: 90%;
+                }
+            }
+            .submit-button{
+                flex: 1;
+                background-color: blue;
+                border: none;
+                border-top-right-radius: $todo-list-border-radius;
+                border-bottom-right-radius: $todo-list-border-radius;
+                padding-top: 5px;
+                #arrow-icon{
+                    color: white;
+                    padding-left: 9px;
+                    // padding-top: 2px;
+                    height: 100%;
+
+                }
+            }
+        }
+    }
+}
