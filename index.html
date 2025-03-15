@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles.css">
     <!-- FontA CDN --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Axios CDN --> <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- chart.js -->
+
 </head>
 <body>
     <div class="dashboard_main">
@@ -89,8 +92,23 @@
                 Notifications
             </div>
             <div class="graphs">
-                Calendar
+                
                 <!-- GEORGE -->
+                 <div id="chart-container">
+                    <div class="year-controls">
+                        <button class="year-button" onclick="changeYear(-1)">&lt;</button>
+                        <span id="yearDisplay"></span>
+                        <button class="year-button" onclick="changeYear(1)">&gt;</button>
+                    </div>
+                    <div class="quarter-controls">
+                        <button class="quarter-button" onclick="updateChart(1)">Q1</button>
+                        <button class="quarter-button" onclick="updateChart(2)">Q2</button>
+                        <button class="quarter-button" onclick="updateChart(3)">Q3</button>
+                        <button class="quarter-button" onclick="updateChart(4)">Q4</button>
+                    </div>
+                    <canvas id="myChart"></canvas>
+                 </div>
+               
             </div>
         </div>
     </div>
