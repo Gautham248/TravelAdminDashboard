@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  border: 1px solid black;
 }
 
 body {
@@ -63,11 +62,150 @@ body {
 .modal-section {
   height: 80vh;
   width: 50vw;
-  border: 3px solid red;
   position: absolute;
   top: 40px;
   left: 300px;
-  display: none;
+}
+
+.modal-section .modal-section-popup {
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+}
+.modal-section .modal-section-popup.active {
+  display: flex;
+}
+.modal-section .modal-section-popup .modal-section-popup-content {
+  padding: 20px;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.modal-section .modal-section-popup .modal-section-popup-content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-header-traveller {
+  font-size: 25px;
+  font-weight: bold;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-header-status {
+  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content-divider {
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+  margin: 15px 0;
+}
+.modal-section .modal-section-popup .modal-section-popup-content-travel-request-details, .modal-section .modal-section-popup .modal-section-popup-content-sub-trip-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content-travel-request-details {
+  background-color: rgba(173, 216, 230, 0.237);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-project-code,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-main-trip,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-departure-date,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-passport-expiry {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  width: 100%;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-project-code-title,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-main-trip-title,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-departure-date-title,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-passport-expiry-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #b1b1b1;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-project-code-value,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-main-trip-value,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-departure-date-value,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-trd-passport-expiry-value {
+  font-size: 15px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-heading {
+  font-weight: bold;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-content {
+  background-color: rgba(173, 216, 230, 0.237);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-header-top {
+  display: flex;
+  align-items: center;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-header-top .fa-car-alt {
+  padding-right: 10px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-header-top-mode {
+  font-size: 15px;
+  font-weight: bold;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-source-destination,
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-time {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-time {
+  color: #c0c0c0;
+  display: flex;
+  align-items: center;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-std-time .fa-clock {
+  padding-right: 10px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+.modal-section .modal-section-popup .modal-section-popup-content-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.modal-section .modal-section-popup .modal-section-popup-content-buttons button:hover {
+  opacity: 0.8;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-buttons-approve {
+  background-color: rgb(15, 148, 15);
+  color: white;
+}
+.modal-section .modal-section-popup .modal-section-popup-content .mspc-buttons-deny {
+  background-color: #ff5353;
+  color: white;
 }
 
 /*# sourceMappingURL=styles.css.map */
