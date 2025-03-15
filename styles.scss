@@ -8,6 +8,8 @@
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     // border: 1px solid black;
+    // border: 1px solid black;
+    // border: 1px solid black;
 }
 
 $primary-color: #3498db;
@@ -132,3 +134,251 @@ body {
           }
     }
     }
+
+//REQUESTS SECTION    #########
+$hover-color: #e6b800;
+$border-color: #ddd;
+$shadow-color: rgba(0, 0, 0, 0.1);
+.request {
+    width: 100%;
+    max-width: 600px; // Increase max-width to accommodate all elements in a row
+}
+
+.request-card {
+    display: flex;
+    align-items: center; // Vertically center items
+    justify-content: space-between; // Space out items
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px $shadow-color; // Add a subtle shadow
+}
+
+.request-card-employee {
+    display: flex;
+    align-items: center; // Align employee details in a row
+    gap: 14px; // Add spacing between employee details
+}
+
+.request-card-employee-details {
+    display: flex;
+    align-items: center; // Align employee details in a row
+    gap: 20px; // Add spacing between employee details
+    justify-content: space-between;
+}
+
+.request-card-employeename {
+    //width: 100px;
+    flex:3;
+    font-size: 18px;
+    font-weight: bold;
+    
+    color: $text-color;
+    margin-right: 10px;
+}
+
+.request-card-sourceanddestination {
+    font-size: 14px;
+    color: $dark-color;
+    flex:6;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.request-card-traveldate {
+    font-size: 14px;
+    color: $dark-color;
+    flex:3;
+    text-align: justify;
+}
+
+.request-card-message {
+    font-size: 13px;
+    color: $dark-color;
+    
+    flex:4;
+}
+
+.erequest-card-projectcode {
+    font-size: 14px;
+    color: $dark-color;
+    flex:2;
+}
+
+.request-card-sectionbutton {
+    display: flex;
+    align-items: center; // Center the button vertically
+}
+
+.request-card-statusbutton {
+    background-color: $warning-color; // Yellow background for "Pending" status
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: $hover-color; // Darker yellow on hover
+    }
+}
+//################################################################################################
+
+// Variables needed for the chart container
+$button-bg-color: #ddd;
+$button-hover-color: #bbb;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-base {
+  background-color: $button-bg-color;
+  border: none;
+  cursor: pointer;
+  @include flex-center;
+  
+  &:hover {
+    background-color: $button-hover-color;
+  }
+}
+
+// Chart container styles - use ID as it appears in the HTML
+#chart-container {
+  width: 95%;  // Update to fit the parent container (.graphs)
+  height: 100%; // Update to fit the parent container (.graphs)
+  text-align: center;
+  padding-top: 50px;
+  margin-left: 10px;
+  background-color: white;
+  border-radius: 20px;
+  
+
+  ;
+  
+  // Year controls
+  .year-controls {
+    @include flex-center;
+    margin-bottom: 10px;
+    
+    .year-button {
+      @include button-base;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      
+    }
+  }
+  
+  // Quarter controls
+  .quarter-controls {
+    @include flex-center;
+    margin-bottom: 10px;
+    
+    .quarter-button {
+      @include button-base;
+      border-radius: 5px;
+      width: 50px;
+      margin: 0 5px;
+    }
+  }
+}
+// Advait
+$todo-list-border-radius: 7px;
+.todo-list{
+    width: 100%;
+    font-size: 16px;
+    border-radius: $todo-list-border-radius;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+
+    align-items: center;
+    .heading-section{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px;
+        padding-bottom: 7px;
+        .tasks-todo{
+            padding-left: 10px;
+        }
+        .view-all{
+            padding-right: 10px;
+            color: blue;
+        }
+    }
+    .task{
+        width: 100%;
+        display: flex;
+        padding-top: 10px;
+        .date-and-time{
+            flex: 1;
+            padding-left: 10px;
+            font-size: small;
+            .date{
+                font-weight: bold;
+            }
+            .time{
+                font-weight: lighter;
+            }
+        }
+        .task-description{
+            flex: 3;
+            padding-left: 10px;
+            
+        }
+    }
+    .task-container{
+        display: flex;
+        justify-content: center;
+        padding-top: 30px;
+        
+        .new-task{
+            width: 300px;
+            height: 30px;
+            display: flex;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: $todo-list-border-radius;
+            .calendar-icon{
+                flex: 1;
+                padding-left: 9px;
+                // padding-top: 5px;
+            }
+            .add-new-task{
+                flex: 7;
+                // padding-top: 5px;
+                padding-bottom: 5px;
+                #task-input{
+                    border: none;
+                    outline: none;
+                    background-color: inherit;
+                    height: 100%;
+                    width: 90%;
+                }
+            }
+            .submit-button{
+                flex: 1;
+                background-color: blue;
+                border: none;
+                border-top-right-radius: $todo-list-border-radius;
+                border-bottom-right-radius: $todo-list-border-radius;
+                padding-top: 5px;
+                #arrow-icon{
+                    color: white;
+                    padding-left: 9px;
+                    // padding-top: 2px;
+                    height: 100%;
+
+                }
+            }
+        }
+    }
+}
