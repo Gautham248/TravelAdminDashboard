@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border: 1px solid black;
+}
+
+body {
+  background-color: #f5f7fa;
+  color: #333333;
+  line-height: 1.6;
+}
+
+.dashboard_main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+.dashboard_main .navbar-section {
+  height: 100%;
+  width: 15%;
+}
+.dashboard_main .central-tab {
+  height: 100%;
+  width: 60%;
+}
+.dashboard_main .central-tab .stats-tasks {
+  display: flex;
+  height: 40%;
+}
+.dashboard_main .central-tab .stats-tasks .stats-section {
+  flex: 1;
+  height: 100%;
+}
+.dashboard_main .central-tab .stats-tasks .todo-list {
+  flex: 1;
+  height: 100%;
+}
+.dashboard_main .central-tab .requestsection {
+  width: 100%;
+  height: 60%;
+}
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter {
+  width: 100%;
+  height: 10%;
+}
+.dashboard_main .central-tab .requestsection .requestsection-allrequests {
+  height: 90%;
+}
+.dashboard_main .notifications-graphs {
+  width: 25%;
+}
+.dashboard_main .notifications-graphs .notifications {
+  width: 100%;
+  height: 40%;
+}
+.dashboard_main .notifications-graphs .graphs {
+  width: 100%;
+  height: 60%;
+}
+
+.modal-section {
+  height: 80vh;
+  width: 50vw;
+  border: 3px solid red;
+  position: absolute;
+  top: 40px;
+  left: 300px;
+  display: none;
+}
+
+/*# sourceMappingURL=styles.css.map */
