@@ -43,10 +43,10 @@ body {
 }
 .dashboard_main .central-tab .requestsection .requestsection-searchfilter {
   width: 100%;
-  height: 10%;
+  height: 15%;
 }
 .dashboard_main .central-tab .requestsection .requestsection-allrequests {
-  height: 90%;
+  height: 85%;
 }
 .dashboard_main .notifications-graphs {
   width: 25%;
