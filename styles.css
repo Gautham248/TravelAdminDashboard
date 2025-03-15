@@ -65,6 +65,7 @@ body {
   position: absolute;
   top: 40px;
   left: 300px;
+  display: none;
 }
 
 .modal-section .modal-section-popup {
