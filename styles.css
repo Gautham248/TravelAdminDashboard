@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  border: 1px solid black;
 }
 
 body {
@@ -70,4 +69,85 @@ body {
   display: none;
 }
 
-/*# sourceMappingURL=styles.css.map */
+.request {
+  width: 100%;
+  max-width: 600px;
+}
+
+.request-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.request-card-employee {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.request-card-employee-details {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.request-card-employeename {
+  flex: 3;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+  margin-right: 10px;
+}
+
+.request-card-sourceanddestination {
+  font-size: 14px;
+  color: #34495e;
+  flex: 6;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.request-card-traveldate {
+  font-size: 14px;
+  color: #34495e;
+  flex: 3;
+  text-align: justify;
+}
+
+.request-card-message {
+  font-size: 13px;
+  color: #34495e;
+  flex: 4;
+}
+
+.erequest-card-projectcode {
+  font-size: 14px;
+  color: #34495e;
+  flex: 2;
+}
+
+.request-card-sectionbutton {
+  display: flex;
+  align-items: center;
+}
+
+.request-card-statusbutton {
+  background-color: #f39c12;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.request-card-statusbutton:hover {
+  background-color: #e6b800;
+}/*# sourceMappingURL=styles.css.map */

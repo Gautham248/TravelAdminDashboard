@@ -7,7 +7,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border: 1px solid black;
+    // border: 1px solid black;
 }
 
 $primary-color: #3498db;
@@ -98,3 +98,95 @@ body {
 
 
 // ############################## YOUR STYLINGS GOES HERE ############################
+
+//REQUESTS SECTION    #########
+$hover-color: #e6b800;
+$border-color: #ddd;
+$shadow-color: rgba(0, 0, 0, 0.1);
+.request {
+    width: 100%;
+    max-width: 600px; // Increase max-width to accommodate all elements in a row
+}
+
+.request-card {
+    display: flex;
+    align-items: center; // Vertically center items
+    justify-content: space-between; // Space out items
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px $shadow-color; // Add a subtle shadow
+}
+
+.request-card-employee {
+    display: flex;
+    align-items: center; // Align employee details in a row
+    gap: 14px; // Add spacing between employee details
+}
+
+.request-card-employee-details {
+    display: flex;
+    align-items: center; // Align employee details in a row
+    gap: 20px; // Add spacing between employee details
+    justify-content: space-between;
+}
+
+.request-card-employeename {
+    //width: 100px;
+    flex:3;
+    font-size: 18px;
+    font-weight: bold;
+    
+    color: $text-color;
+    margin-right: 10px;
+}
+
+.request-card-sourceanddestination {
+    font-size: 14px;
+    color: $dark-color;
+    flex:6;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.request-card-traveldate {
+    font-size: 14px;
+    color: $dark-color;
+    flex:3;
+    text-align: justify;
+}
+
+.request-card-message {
+    font-size: 13px;
+    color: $dark-color;
+    
+    flex:4;
+}
+
+.erequest-card-projectcode {
+    font-size: 14px;
+    color: $dark-color;
+    flex:2;
+}
+
+.request-card-sectionbutton {
+    display: flex;
+    align-items: center; // Center the button vertically
+}
+
+.request-card-statusbutton {
+    background-color: $warning-color; // Yellow background for "Pending" status
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: $hover-color; // Darker yellow on hover
+    }
+}
+//################################################################################################
