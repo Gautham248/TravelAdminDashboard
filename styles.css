@@ -68,6 +68,251 @@ body {
   display: none;
 }
 
+.stats-section .stats-section-title {
+  font-size: 15px;
+  margin-left: 10px;
+}
+.stats-section .stats-section-totalrequests-title,
+.stats-section .stats-section-threats-title,
+.stats-section .stats-section-verified-title {
+  font-size: 14px;
+}
+.stats-section .stats-section-totalrequests,
+.stats-section .stats-section-threats,
+.stats-section .stats-section-verified {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  align-items: center;
+  margin: 5px;
+  height: 60px;
+}
+.stats-section .stats-section-totalrequests-content,
+.stats-section .stats-section-threats-content,
+.stats-section .stats-section-verified-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.request {
+  width: 100%;
+  max-width: 600px;
+}
+
+.request-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.request-card-employee {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.request-card-employee-details {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.request-card-employeename {
+  flex: 3;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+  margin-right: 10px;
+}
+
+.request-card-sourceanddestination {
+  font-size: 14px;
+  color: #34495e;
+  flex: 6;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.request-card-traveldate {
+  font-size: 14px;
+  color: #34495e;
+  flex: 3;
+  text-align: justify;
+}
+
+.request-card-message {
+  font-size: 13px;
+  color: #34495e;
+  flex: 4;
+}
+
+.erequest-card-projectcode {
+  font-size: 14px;
+  color: #34495e;
+  flex: 2;
+}
+
+.request-card-sectionbutton {
+  display: flex;
+  align-items: center;
+}
+
+.request-card-statusbutton {
+  background-color: #f39c12;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.request-card-statusbutton:hover {
+  background-color: #e6b800;
+}
+
+#chart-container {
+  width: 95%;
+  height: 100%;
+  text-align: center;
+  padding-top: 50px;
+  margin-left: 10px;
+  background-color: white;
+  border-radius: 20px;
+}
+#chart-container .year-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+#chart-container .year-controls .year-button {
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+#chart-container .year-controls .year-button:hover {
+  background-color: #bbb;
+}
+#chart-container .quarter-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+#chart-container .quarter-controls .quarter-button {
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  width: 50px;
+  margin: 0 5px;
+}
+#chart-container .quarter-controls .quarter-button:hover {
+  background-color: #bbb;
+}
+
+.todo-list {
+  width: 100%;
+  font-size: 16px;
+  border-radius: 7px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.todo-list .heading-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 7px;
+}
+.todo-list .heading-section .tasks-todo {
+  padding-left: 10px;
+}
+.todo-list .heading-section .view-all {
+  padding-right: 10px;
+  color: blue;
+}
+.todo-list .task {
+  width: 100%;
+  display: flex;
+  padding-top: 10px;
+}
+.todo-list .task .date-and-time {
+  flex: 1;
+  padding-left: 10px;
+  font-size: small;
+}
+.todo-list .task .date-and-time .date {
+  font-weight: bold;
+}
+.todo-list .task .date-and-time .time {
+  font-weight: lighter;
+}
+.todo-list .task .task-description {
+  flex: 3;
+  padding-left: 10px;
+}
+.todo-list .task-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+.todo-list .task-container .new-task {
+  width: 300px;
+  height: 30px;
+  display: flex;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+}
+.todo-list .task-container .new-task .calendar-icon {
+  flex: 1;
+  padding-left: 9px;
+}
+.todo-list .task-container .new-task .add-new-task {
+  flex: 7;
+  padding-bottom: 5px;
+}
+.todo-list .task-container .new-task .add-new-task #task-input {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  height: 100%;
+  width: 90%;
+}
+.todo-list .task-container .new-task .submit-button {
+  flex: 1;
+  background-color: blue;
+  border: none;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding-top: 5px;
+}
+.todo-list .task-container .new-task .submit-button #arrow-icon {
+  color: white;
+  padding-left: 9px;
+  height: 100%;
+}
+
 .modal-section .modal-section-popup {
   inset: 0;
   justify-content: center;

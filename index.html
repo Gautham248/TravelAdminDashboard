@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles.css">
     <!-- FontA CDN --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Axios CDN --> <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- chart.js -->
+
 </head>
 <body>
     <div class="dashboard_main">
@@ -16,12 +19,85 @@
         <div class="central-tab">
             <div class="stats-tasks">
                 <div class="stats-section">
-                    stats-section
+
                     <!-- MAHESH -->
+                    <div class="stats-section-title">
+                            <h3>Total Stats</h3>
+                    </div>
+                    
+                    <!-- Total Request -->
+                    <div class="stats-section-totalrequests">
+                        <div class="stats-section-totalrequests-heading">
+                        <p class="stats-section-totalrequests-title">Total Requests</p>
+                        </div>
+                        <div class="stats-section-totalrequests-content">
+                            <i class="fa-solid fa-plane fa-lg" style="color: #74C0FC;"></i>
+                            <p class="stats-section-totalrequests-number">3</p>
+                        </div>
+
+                    </div>
+            
+                    <!-- threats -->
+                    <div class="stats-section-threats">
+
+                        <div class="stats-section-threats-heading">
+                            <p class="stats-section-threats-title">Threats</p>
+                        </div>
+                        <div class="stats-section-threats-content">
+                            <i class="fa-solid fa-triangle-exclamation fa-lg" style="color: #ffd53d;"></i>
+                            <p class="stats-section-threats-number">3</p>
+                        </div>
+                    </div>
+            
+                    <!-- verified -->
+                    <div class="stats-section-verified">
+                        <div class="stats-section-verified-heading">
+                            
+                            <p class="stats-section-verified-title">Verified</p>
+                        </div>
+                        <div class="stats-section-verified-content">
+                            <i class="fa-solid fa-circle-check fa-lg" style="color: #63E6BE;"></i>
+                            <p class="stats-section-verified-number">3</p>
+                        </div>
+                    </div>
+            
                 </div>
                 <div class="todo-list">
-                    todo list 
-                    <!-- ADVAIT -->
+                    <div class="heading-section">
+                        <h3 class="tasks-todo">Tasks to do</h3>
+                        <p class="view-all">View All</p>
+                    </div>
+                    <div class="task">
+                        <div class="date-and-time">
+                            <p class="date">25 Mar 24</p>
+                            <p class="time">10:00 AM</p>
+                        </div>
+                        <div class="task-description">
+                            <p>Book flight tickets to Paris </p>
+                        </div>
+                    </div>
+                    <div class="task">
+                        <div class="date-and-time">
+                            <p class="date">25 Mar 24</p>
+                            <p class="time">10:00 AM</p>
+                        </div>
+                        <div class="task-description">
+                            <p>Research and book accomodations in Rome </p>
+                        </div>
+                    </div>
+                    <div class="task-container">
+                        <div class="new-task">
+                            <div class="calendar-icon">
+                                <i class="fa-regular fa-calendar-days"></i>
+                            </div>
+                            <div class="add-new-task">
+                                <input type="text" id="task-input" placeholder="Add new task">
+                            </div>
+                            <button class="submit-button">
+                                <i class="fa-sharp fa-solid fa-arrow-right" id="arrow-icon"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="requestsection">
@@ -30,7 +106,56 @@
                     search and filter
                 </div>
                 <div class="requestsection-allrequests">
-                    all requests
+                    <div class="request-card">
+                        <!-- Section: Employee Details -->
+                        <div class="request-card-employee">
+                            <div class="request-card-employeename">John Doe</div>
+                            <div class="request-card-employee-details">
+                                <div class="request-card-sourceanddestination">New york - California</div>
+                                <div class="request-card-traveldate">03-04-2025</div>
+                                <div class="request-card-projectcode">PC001</div>
+                                <div class="request-card-message">Passport Expires in 04-04-2025</div>
+                            </div>
+                        </div>
+             
+                        <!-- Section: Button -->
+                        <div class="request-card-sectionbutton">
+                            <button class="request-card-statusbutton">Pending</button>
+                        </div>
+                    </div>
+                    <div class="request-card">
+                        <!-- Section: Employee Details -->
+                        <div class="request-card-employee">
+                            <div class="request-card-employeename">Jane Doe</div>
+                            <div class="request-card-employee-details">
+                                <div class="request-card-sourceanddestination">New york - India</div>
+                                <div class="request-card-traveldate">04-06-2025</div>
+                                <div class="request-card-projectcode">PC002</div>
+                                <div class="request-card-message">Passport Expires in 16-03-2025</div>
+                            </div>
+                        </div>
+             
+                        <!-- Section: Button -->
+                        <div class="request-card-sectionbutton">
+                            <button class="request-card-statusbutton">Pending</button>
+                        </div>
+                    </div><div class="request-card">
+                        <!-- Section: Employee Details -->
+                        <div class="request-card-employee">
+                            <div class="request-card-employeename">Alice Davis</div>
+                            <div class="request-card-employee-details">
+                                <div class="request-card-sourceanddestination">India - Japan</div>
+                                <div class="request-card-traveldate">11-09-2025</div>
+                                <div class="request-card-projectcode">PC003</div>
+                                <div class="request-card-message">Passport Expires in 24-04-2025</div>
+                            </div>
+                        </div>
+             
+                        <!-- Section: Button -->
+                        <div class="request-card-sectionbutton">
+                            <button class="request-card-statusbutton">Pending</button>
+                        </div>
+                    </div>
                 </div>
                 
             </div>
@@ -40,8 +165,23 @@
                 Notifications
             </div>
             <div class="graphs">
-                Calendar
+                
                 <!-- GEORGE -->
+                 <div id="chart-container">
+                    <div class="year-controls">
+                        <button class="year-button" onclick="changeYear(-1)">&lt;</button>
+                        <span id="yearDisplay"></span>
+                        <button class="year-button" onclick="changeYear(1)">&gt;</button>
+                    </div>
+                    <div class="quarter-controls">
+                        <button class="quarter-button" onclick="updateChart(1)">Q1</button>
+                        <button class="quarter-button" onclick="updateChart(2)">Q2</button>
+                        <button class="quarter-button" onclick="updateChart(3)">Q3</button>
+                        <button class="quarter-button" onclick="updateChart(4)">Q4</button>
+                    </div>
+                    <canvas id="myChart"></canvas>
+                 </div>
+               
             </div>
         </div>
     </div>
