@@ -98,3 +98,60 @@ body {
 
 
 // ############################## YOUR STYLINGS GOES HERE ############################
+
+
+// Variables needed for the chart container
+$button-bg-color: #ddd;
+$button-hover-color: #bbb;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-base {
+  background-color: $button-bg-color;
+  border: none;
+  cursor: pointer;
+  @include flex-center;
+  
+  &:hover {
+    background-color: $button-hover-color;
+  }
+}
+
+// Chart container styles - use ID as it appears in the HTML
+#chart-container {
+  width: 95%;  // Update to fit the parent container (.graphs)
+  height: 100%; // Update to fit the parent container (.graphs)
+  text-align: center;
+  padding-top: 30px;
+  
+  // Year controls
+  .year-controls {
+    @include flex-center;
+    margin-bottom: 10px;
+    
+    .year-button {
+      @include button-base;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      
+    }
+  }
+  
+  // Quarter controls
+  .quarter-controls {
+    @include flex-center;
+    margin-bottom: 10px;
+    
+    .quarter-button {
+      @include button-base;
+      border-radius: 5px;
+      width: 50px;
+      margin: 0 5px;
+    }
+  }
+}
