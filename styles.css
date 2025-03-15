@@ -70,4 +70,32 @@ body {
   display: none;
 }
 
+.stats-section .stats-section-title {
+  font-size: 15px;
+  margin-left: 10px;
+}
+.stats-section .stats-section-totalrequests-title,
+.stats-section .stats-section-threats-title,
+.stats-section .stats-section-verified-title {
+  font-size: 14px;
+}
+.stats-section .stats-section-totalrequests,
+.stats-section .stats-section-threats,
+.stats-section .stats-section-verified {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  align-items: center;
+  margin: 5px;
+  height: 60px;
+}
+.stats-section .stats-section-totalrequests-content,
+.stats-section .stats-section-threats-content,
+.stats-section .stats-section-verified-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /*# sourceMappingURL=styles.css.map */
