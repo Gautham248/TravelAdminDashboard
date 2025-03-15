@@ -217,7 +217,13 @@ $button-hover-color: #bbb;
   width: 95%;  // Update to fit the parent container (.graphs)
   height: 100%; // Update to fit the parent container (.graphs)
   text-align: center;
-  padding-top: 30px;
+  padding-top: 50px;
+  margin-left: 10px;
+  background-color: white;
+  border-radius: 20px;
+  
+
+  ;
   
   // Year controls
   .year-controls {

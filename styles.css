@@ -156,7 +156,10 @@ body {
   width: 95%;
   height: 100%;
   text-align: center;
-  padding-top: 30px;
+  padding-top: 50px;
+  margin-left: 10px;
+  background-color: white;
+  border-radius: 20px;
 }
 #chart-container .year-controls {
   display: flex;
