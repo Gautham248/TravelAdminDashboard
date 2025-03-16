@@ -42,7 +42,6 @@ body {
     .navbar-section{
         height: 100%;
         width: 15%;
-
     }
     .central-tab{
         height: 100%;
@@ -65,14 +64,70 @@ body {
             .requestsection-searchfilter{
                 width: 100%;
                 height: 10%;
+
+                .controls{
+                    margin-top: 15px;
+                    justify-content: space-between;
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                    .search-container
+                    {
+                        display: flex;
+                        align-items: center;
+                        overflow: hidden;
+                        width: 40%;
+                        input {
+                            flex: 1;
+                            // border: 1px solid black;
+                            // padding: 12px 16px;
+                            border: none;
+                            outline: none;
+                            font-size: 16px;
+                        }
+                    } 
+                    .tabs {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 8px;
+                    }
+                    
+                    .tab-btn {
+                        background-color: white;
+                        color: black;
+                        border: none;
+                        border-radius: 8px;
+                        padding: 5px 10px;
+                        cursor: pointer;
+                        font-weight: 500;
+                        transition: all 0.3s ease;
+                        box-shadow: #b1b1b1;
+                    }
+                    
+                    .tab-btn:hover {
+                        background-color: #3498db;
+                    }
+                    
+                    .tab-btn.active {
+                        background-color: #3498db;
+                        color: var(--white);
+                    }
+                
+                }
             }
             .requestsection-allrequests{
-                height: 90%;
+                max-height: 90%;
+                overflow-y: auto;
             }
         }
     }
     .notifications-graphs{
-        width: 25%;
+        width: 20%;
+        // background-color: red;
+        // overflow-x: auto;
+        display: flex;
+        flex-direction: column;
         .notifications{
             width: 100%;
             height: 30%;
@@ -94,6 +149,7 @@ body {
     top: 40px;
     left: 300px;
     display: none; 
+    // display: none; 
     
     
 }
@@ -103,7 +159,6 @@ body {
 
 
 // ############################## YOUR STYLINGS GOES HERE ############################
-
 
 // #################################### Mahesh #########################################
 
@@ -179,7 +234,7 @@ body {
     }
     
 
-//REQUESTS SECTION    #########
+//############################## CHRISTIA ######################################
 $hover-color: #e6b800;
 $border-color: #ddd;
 $shadow-color: rgba(0, 0, 0, 0.1);
@@ -269,7 +324,7 @@ $shadow-color: rgba(0, 0, 0, 0.1);
         background-color: $hover-color; // Darker yellow on hover
     }
 }
-//################################################################################################
+//  ######################### GEORGE ############################################
 
 // Variables needed for the chart container
 $button-bg-color: #ddd;
@@ -332,7 +387,8 @@ $button-hover-color: #bbb;
     }
   }
 }
-// Advait
+
+//############################### Advait ####################################################################
 $todo-list-border-radius: 7px;
 .todo-list{
     width: 100%;
@@ -355,8 +411,13 @@ $todo-list-border-radius: 7px;
             padding-left: 10px;
         }
         .view-all{
-            padding-right: 10px;
-            color: blue;
+           
+            padding: 10px 15px;  
+            border: none;         
+            background: none;     
+            cursor: pointer;      
+            display: inline-block; 
+        
         }
     }
     .task{
@@ -427,9 +488,63 @@ $todo-list-border-radius: 7px;
     }
 }
 
+
+.task-overlay{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    align-items: center;
+    justify-content: center;
+
+    .task-modal{
+        background: white;
+        width: 40%;
+        max-height: 80%;
+        padding: 20px;
+        border-radius: $todo-list-border-radius;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        overflow-y: auto;
+
+        .close-task-modal{
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 50px;
+            color: whitesmoke;
+
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+
+            li {
+                padding: 8px;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+
+    }
+}
+
 // ############################ RIONA MARIA VARGHESE #################################
 .modal-section {
-    
+    // overflow-y: auto;
+    // overflow-x: hidden;
+    z-index: 5;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;  
     .modal-section-popup {
         inset: 0; // positioning
         justify-content: center;
@@ -445,6 +560,7 @@ $todo-list-border-radius: 7px;
             background: #fff;
             display: flex;
             flex-direction: column;
+            width: 100%;
     
             &-header {
                 display: flex;
@@ -498,6 +614,7 @@ $todo-list-border-radius: 7px;
                 display: flex;
                 flex-direction: column;
                 font-size: 15px;
+                width: 100%;
 
                 &-title {
                     font-size: 12px;
@@ -508,7 +625,6 @@ $todo-list-border-radius: 7px;
                 &-value {
                     font-size: 15px;
                 }
-                width: 100%;
             }
 
             .mspc-std-heading {
@@ -533,10 +649,6 @@ $todo-list-border-radius: 7px;
                     display: flex;
                     align-items: center;
 
-                    .fa-car-alt {
-                        padding-right: 10px;
-                    }
-
                     &-mode {
                         font-size: 15px;
                         font-weight: bold;
@@ -560,11 +672,45 @@ $todo-list-border-radius: 7px;
                     padding-right: 10px;
                 }
             }
+
+            &-ticket-link {
+                margin: 20px 0;
+                padding: 0;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                
+                label {
+                    margin-right: 10px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #333333;
+                }
+                
+                .mspc-ticket-link {
+                    flex: 1;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    
+                    &:focus {
+                        outline: none;
+                        border-color: $primary-color;
+                        box-shadow: 0 0 3px rgba($primary-color, 0.3);
+                    }
+                    
+                    &::placeholder {
+                        color: #b1b1b1;
+                    }
+                }
+            }
     
             &-buttons {
                 display: flex;
                 justify-content: space-between;
                 gap: 15px;
+                margin-top: 10px;
     
                 button {
                     flex: 1;
@@ -573,13 +719,14 @@ $todo-list-border-radius: 7px;
                     border-radius: 5px;
                     font-weight: bold;
                     cursor: pointer;
-                    transition: opacity 0.3s ease;
+                    transition: opacity 0.2s ease;
     
                     &:hover {
                         opacity: 0.8;
                     }
                 }
             }
+
             .mspc-buttons-approve {
                 background-color: rgb(15, 148, 15);
                 color: white;
@@ -588,6 +735,21 @@ $todo-list-border-radius: 7px;
                 background-color: #ff5353;
                 color: white;
             }
+            
         }
     }
+}
+.modal-section-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    // z-index: 5;
+}
+
+.hidden {
+    display: none;
 }

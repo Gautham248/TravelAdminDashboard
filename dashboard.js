@@ -1,62 +1,597 @@
-const fetchAndUpdateStats = async () => {
+// Firebase URL constant
+const DB_URL = 'https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json';
+
+// Global state variables
+let allData = null;
+let activeTab = 'all';
+let searchTerm = '';
+
+// Fetch data once and store it
+const fetchData = async () => {
   try {
-    const response = await axios.get(
-      "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json"
-    );
-    const data = response.data;
-
-    if (!data) {
-      console.error("No data received from Firebase.");
-      return;
-    }
-
-    console.log("Fetched Data:", data);
-
-    let threats = 0;
-    let totalRequests = 0;
-    let verifiedRequests = 0;
-
-    const today = new Date();
-
-    // Calculate Threats (Passports Expiring in 30 Days)
-    if (data.passports) {
-      Object.values(data.passports).forEach((passport) => {
-        const expiryDate = new Date(passport.expiry);
-        const daysLeft = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
-
-        console.log(`Passport Expiry: ${passport.expiry}, Days Left: ${daysLeft}`); // Debugging Line
-
-        if (daysLeft <= 30) threats++;
-      });
-    }
-
-    // Count Total Travel Requests
-    if (data.travelRequests) {
-      totalRequests = Object.keys(data.travelRequests).length;
-    }
-
-    // Count Verified Travel Requests
-    if (data.travelRequests) {
-      Object.values(data.travelRequests).forEach((request) => {
-        if (request.status === "verified") verifiedRequests++;
-      });
-    }
-
-    // Update UI
-    document.querySelector(".stats-section-threats-number").innerText = threats.toString();
-    document.querySelector(".stats-section-totalrequests-number").innerText = totalRequests.toString();
-    document.querySelector(".stats-section-verified-number").innerText = verifiedRequests.toString();
-
-    console.log("Stats Updated:", { threats, totalRequests, verifiedRequests });
-
+    const response = await axios.get(DB_URL);
+    allData = response.data;
+    console.log('Data fetched:', allData);
+    applyFiltersAndRender();
+    updateStats();
   } catch (error) {
-    console.error("Error fetching data:", error);
-    document.querySelector(".stats-section-threats-number").innerText = "Error!";
+    console.error('Error fetching data:', error);
   }
 };
 
-// Call the function on page load or periodically
-fetchAndUpdateStats();
+// Function to filter data based on active tab and search term
+const applyFiltersAndRender = () => {
+  if (!allData?.travelRequests) return;
+  
+  const today = new Date();
+  const filteredRequests = {};
+  
+  // Filter based on search term and active tab
+  Object.entries(allData.travelRequests).forEach(([requestId, request]) => {
+    const employee = allData.employees[request.employeeId];
+    const passport = allData.passports[request.employeeId];
+    let includeInResults = true;
+    
+    // Search filter
+    if (searchTerm) {
+      const employeeName = employee?.name?.toLowerCase() || '';
+      const source = request.source?.toLowerCase() || '';
+      const destination = request.destination?.toLowerCase() || '';
+      const projectCode = request.projectCode?.toLowerCase() || '';
+      
+      if (!employeeName.includes(searchTerm) && 
+          !source.includes(searchTerm) && 
+          !destination.includes(searchTerm) &&
+          !projectCode.includes(searchTerm)) {
+        includeInResults = false;
+      }
+    }
+    
+    // Tab filter
+    if (activeTab !== 'all') {
+      // For upcoming tab - show requests with departure dates in the future
+      if (activeTab === 'upcoming') {
+        const departureDate = new Date(request.departure);
+        if (departureDate <= today) {
+          includeInResults = false;
+        }
+      }
+      // For threats tab - show requests with passports expiring within 6 months
+      else if (activeTab === 'threats') {
+        const expiryDate = new Date(passport?.expiry);
+        const sixMonthsFromNow = new Date();
+        sixMonthsFromNow.setMonth(today.getMonth() + 6);
+        
+        if (!(expiryDate < sixMonthsFromNow)) {
+          includeInResults = false;
+        }
+      }
+      // For verified tab - show only verified requests
+      else if (activeTab === 'verified') {
+        if (request.status !== 'verified') {
+          includeInResults = false;
+        }
+      }
+    }
+    
+    // Include request if it passed all filters
+    if (includeInResults) {
+      filteredRequests[requestId] = request;
+    }
+  });
+  
+  renderRequestsList(filteredRequests);
+};
+
+const renderRequestsList = (filteredRequests = null) => {
+  const requestsToRender = filteredRequests || allData.travelRequests;
+  
+  const travelDetails = Object.entries(requestsToRender).map(([requestId, request]) => {
+    const employee = allData.employees[request.employeeId];
+    const passport = allData.passports[request.employeeId];
+
+    return {
+      id: requestId,
+      employeeId: request.employeeId,
+      departureDate: request.departure,
+      source: request.source,
+      destination: request.destination,
+      projectCode: request.projectCode,
+      employeeName: employee.name,
+      passportExpiry: passport.expiry,
+      status: request.status,
+      subTrips: request.subTrips
+    };
+  });
+
+  renderRequestCards(travelDetails);
+};
+
+const renderRequestCards = (travelDetails) => {
+  const container = document.querySelector('.requestsection-allrequests');   
+  container.innerHTML = '';
+  
+  if (travelDetails.length === 0) {
+    const noResultsMessage = document.createElement('div');
+    noResultsMessage.classList.add('no-results-message');
+    noResultsMessage.textContent = 'No travel requests match your criteria';
+    container.appendChild(noResultsMessage);
+    return;
+  }
+
+  travelDetails.forEach(dataRequest => {
+    const card = createRequestCard(dataRequest);
+    container.appendChild(card);
+  });
+};
+
+const createRequestCard = (dataRequest) => {
+  const card = document.createElement('div');
+  card.classList.add('request-card');
+  
+  // Create the entire card structure using template literal
+  card.innerHTML = `
+    <div class="request-card-employee">
+      <div class="request-card-employeename">${dataRequest.employeeName}</div>
+      <div class="request-card-employee-details">
+        <div class="request-card-sourceanddestination">${dataRequest.source} - ${dataRequest.destination}</div>
+        <div class="request-card-traveldate">${formatDate(dataRequest.departureDate)}</div>
+        <div class="request-card-projectcode">${dataRequest.projectCode}</div>
+        <div class="request-card-passport-expiry">Passport expires on ${formatDate(dataRequest.passportExpiry)}</div>
+      </div>
+    </div>
+    <div class="request-card-sectionbutton">
+      <button class="request-card-statusbutton ${dataRequest.status === 'verified' ? 'status-verified' : 
+                                              dataRequest.status === 'denied' ? 'status-denied' : ''}">${dataRequest.status || 'Pending'}</button>
+    </div>
+  `;
+  
+  // Add click event to open modal
+  card.addEventListener('click', () => {
+    openModal(dataRequest);
+  });
+  
+  return card;
+};
+
+const openModal = (dataRequest) => {
+  // Get modal elements
+  const modal = document.querySelector('.modal-section');
+  const modalOverlay = document.querySelector('.modal-section-overlay');
+  const modalPopup = document.getElementById("modal-section-popup");
+  
+  if (!modal) return;
+  
+  // Update modal content
+  try {
+    // Update traveler information
+    updateModalHeader(dataRequest);
+    
+    // Update travel request details
+    updateTravelRequestDetails(dataRequest);
+    
+    // Render subtrips
+    renderSubTrips(dataRequest);
+    
+    // Show the modal
+    modal.style.display = 'block';
+    if (modalPopup) modalPopup.classList.add("active");
+    if (modalOverlay) modalOverlay.classList.remove('hidden');
+  } catch (error) {
+    console.error('Error updating modal content:', error);
+  }
+};
+
+const updateModalHeader = (dataRequest) => {
+  const travelerNameElement = document.querySelector('.mspc-header-traveller');
+  const statusElement = document.querySelector('.mspc-header-status');
+  
+  if (travelerNameElement) {
+    travelerNameElement.textContent = dataRequest.employeeName;
+  }
+  
+  if (statusElement) {
+    statusElement.textContent = dataRequest.status || 'Pending';
+    
+    // Reset styles
+    statusElement.style.backgroundColor = '';
+    statusElement.style.color = '';
+    
+    // Apply appropriate styling
+    if (dataRequest.status?.toLowerCase() === 'verified') {
+      statusElement.style.backgroundColor = 'rgb(15, 148, 15)';
+      statusElement.style.color = 'white';
+    } else if (dataRequest.status?.toLowerCase() === 'denied') {
+      statusElement.style.backgroundColor = '#ff5353';
+      statusElement.style.color = 'white';
+    } else {
+      statusElement.style.backgroundColor = '#FFD700';
+      statusElement.style.color = 'black';
+    }
+  }
+};
+
+const updateTravelRequestDetails = (dataRequest) => {
+  // Update project code
+  const projectCodeElement = document.querySelector('.mspc-trd-project-code-value');
+  if (projectCodeElement) {
+    projectCodeElement.textContent = dataRequest.projectCode;
+  }
+
+  // Update main trip
+  const mainTripElement = document.querySelector('.mspc-trd-main-trip-value');
+  if (mainTripElement) {
+    mainTripElement.textContent = `${dataRequest.source} → ${dataRequest.destination}`;
+  }
+
+  // Update departure date
+  const departureDateElement = document.querySelector('.mspc-trd-departure-date-value');
+  if (departureDateElement) {
+    departureDateElement.textContent = formatDate(dataRequest.departureDate);
+  }
+
+  // Update passport expiry
+  const passportExpiryElement = document.querySelector('.mspc-trd-passport-expiry-value');
+  if (passportExpiryElement) {
+    passportExpiryElement.textContent = formatDate(dataRequest.passportExpiry);
+  }
+};
+
+const renderSubTrips = (dataRequest) => {
+  const container = document.querySelector('.mspc-std-content');
+  if (!container) {
+    console.log("error");
+    return; 
+  }
+  
+  // Clear previous content
+  container.innerHTML = '';
+  
+  // Add heading back
+  const heading = document.createElement('div');
+  heading.classList.add('mspc-std-heading');
+  heading.textContent = 'Sub Trips';
+  container.appendChild(heading);
+  
+  // Check if this request has sub-trips
+  if (!dataRequest.subTrips || Object.keys(dataRequest.subTrips).length === 0) {
+    const noSubTripsMsg = document.createElement('div');
+    noSubTripsMsg.classList.add('mspc-std-no-subtrips');
+    noSubTripsMsg.textContent = 'No sub-trips available for this travel request.';
+    container.appendChild(noSubTripsMsg);
+    return;
+  }
+  
+  // Display each sub-trip
+  Object.entries(dataRequest.subTrips).forEach(([subTripId, subTrip]) => {
+    // Create sub-trip content container
+    const content = document.createElement('div');
+    content.classList.add('mspc-std-content');
+    
+    // Set appropriate icon based on sub-trip type
+    let iconClass = 'fa-car-alt';
+    if (subTrip.type === 'hotel') iconClass = 'fa-hotel';
+    else if (subTrip.type === 'meeting') iconClass = 'fa-briefcase';
+    else if (subTrip.type === 'dropoff') iconClass = 'fa-plane-departure';
+    
+    content.innerHTML = `
+      <div class="mspc-std-header">
+        <div class="mspc-std-header-top">
+          <i class="fas ${iconClass}" style="padding-right: 10px; color:#0080FF"></i>
+          <div class="mspc-std-header-top-mode">${capitalizeFirstLetter(subTrip.type)}</div>
+        </div>
+        <i class="fa fa-trash" style="color: #ff5353; cursor: pointer;"></i>
+      </div>
+      <div class="mspc-std-source-destination">
+        ${subTrip.source} to ${subTrip.destination}
+      </div>
+      <div class="mspc-std-time">
+        <i class="fa-solid fa-clock"></i>
+        <div class="mspc-std-time-value">${subTrip.time}</div>
+      </div>
+    `;
+    
+    // Add delete functionality to trash icon
+    const trashIcon = content.querySelector('.fa-trash');
+    trashIcon.addEventListener('click', (event) => {
+      event.stopPropagation(); // Prevent modal from closing
+      // Here you would add the delete functionality
+      alert(`Delete subtrip: ${subTripId}`);
+    });
+    
+    container.appendChild(content);
+  });
+};
+
+// Function to update stats dynamically
+const updateStats = () => {
+  if (!allData?.travelRequests || !allData?.passports) {
+    console.error("Invalid data format");
+    return;
+  }
+
+  const totalRequests = Object.keys(allData.travelRequests).length;
+  let verifiedRequests = 0;
+  let threatRequests = 0;
+  const today = new Date();
+
+  // Loop through travel requests
+  Object.values(allData.travelRequests).forEach(request => {
+    if (request.status === "verified") {
+      verifiedRequests++;
+    }
+
+    const employeeId = request.employeeId;
+    const passport = allData.passports[employeeId];
+
+    if (passport?.expiry) {
+      const expiryDate = new Date(passport.expiry);
+      const sixMonthsFromNow = new Date();
+      sixMonthsFromNow.setMonth(today.getMonth() + 6);
+
+      // If passport expires in less than 6 months, it's a threat
+      if (expiryDate < sixMonthsFromNow) {
+        threatRequests++;
+      }
+    }
+  });
+
+  // Update UI
+  const totalElement = document.querySelector(".stats-section-totalrequests-number");
+  const threatsElement = document.querySelector(".stats-section-threats-number");
+  const verifiedElement = document.querySelector(".stats-section-verified-number");
+
+  if (totalElement) totalElement.textContent = totalRequests;
+  if (threatsElement) threatsElement.textContent = threatRequests;
+  if (verifiedElement) verifiedElement.textContent = verifiedRequests;
+
+  console.log("Stats updated:", { totalRequests, threatRequests, verifiedRequests });
+};
+
+// Helper functions
+const formatDate = (dateString) => {
+  if (!dateString) return 'N/A';
+  
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric' 
+  });
+};
+
+const capitalizeFirstLetter = (string) => {
+  if (!string) return '';
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+// const addNewTask = () => {
+//     const taskInput = document.getElementById('task-input');
+//     const taskText = taskInput.value.trim();
+    
+//     if (taskText) {
+//       const taskContainer = document.querySelector('.todo-list');
+//       const currentDate = new Date();
+//       const formattedDate = `${currentDate.getDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentDate.getMonth()]} ${String(currentDate.getFullYear()).slice(2)}`;
+//       const formattedTime = `${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')} ${currentDate.getHours() >= 12 ? 'PM' : 'AM'}`;
+      
+//       const newTask = document.createElement('div');
+//       newTask.classList.add('task');
+//       newTask.innerHTML = `
+//         <div class="date-and-time">
+//           <p class="date">${formattedDate}</p>
+//           <p class="time">${formattedTime}</p>
+//         </div>
+//         <div class="task-description">
+//           <p>${taskText}</p>
+//         </div>
+//       `;
+      
+//       // Insert before the task-container or at the beginning
+//       const taskContainerElement = document.querySelector('.task-container');
+//       if (taskContainerElement) {
+//         taskContainer.insertBefore(newTask, taskContainerElement);
+//       } else {
+//         taskContainer.appendChild(newTask);
+//       }
+      
+//       // Clear input
+//       taskInput.value = '';
+//     }
+//   };
+  
+  // Setup event listeners for the entire application
+  const setupEventListeners = () => {
+    // Tab buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        activeTab = e.target.getAttribute('data-tab');
+        applyFiltersAndRender();
+      });
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+    
+    if (searchBtn) {
+      searchBtn.addEventListener('click', () => {
+        searchTerm = searchInput?.value.toLowerCase().trim() || '';
+        applyFiltersAndRender();
+      });
+    }
+    
+    if (searchInput) {
+      searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          searchTerm = searchInput.value.toLowerCase().trim();
+          applyFiltersAndRender();
+        }
+      });
+    }
+    
+    // Modal close functionality
+    setupModalCloseHandlers();
+    
+    // Add task functionality
+    // const taskInput = document.getElementById('task-input');
+    // const submitButton = document.querySelector('.submit-button');
+    
+    // if (taskInput && submitButton) {
+    //   submitButton.addEventListener('click', addNewTask);
+    //   taskInput.addEventListener('keyup', (e) => {
+    //     if (e.key === 'Enter') {
+    //       addNewTask();
+    //     }
+    //   });
+    // }
+    
+    // Add approve and deny button functionality
+    setupApprovalButtons();
+  };
+  
+  const setupModalCloseHandlers = () => {
+    // Set up modal close button
+    const closeButtons = document.querySelectorAll('.close, .modal-close');
+    closeButtons.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', closeModal);
+      }
+    });
+  
+    // Close modal when clicking outside
+    const modalOverlay = document.querySelector('.modal-section-overlay');
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', (event) => {
+        if (event.target === modalOverlay) {
+          closeModal();
+        }
+      });
+    }
+  };
+  
+  const closeModal = () => {
+    const modal = document.querySelector('.modal-section');
+    const modalOverlay = document.querySelector('.modal-section-overlay');
+    const modalPopup = document.getElementById('modal-section-popup');
+    
+    if (modal) modal.style.display = 'none';
+    if (modalOverlay) modalOverlay.classList.add('hidden');
+    if (modalPopup) modalPopup.classList.remove('active');
+  };
+  
+  const setupApprovalButtons = () => {
+    // Add event listeners for approve and deny buttons
+    const approveButton = document.querySelector('.mspc-buttons-approve');
+    const denyButton = document.querySelector('.mspc-buttons-deny');
+    
+    if (approveButton) {
+      approveButton.addEventListener('click', () => {
+        // Here you would update the request status in the database
+        // alert('Request approved!');
+        // Optional: Close the modal after approving
+        closeModal();
+        // Optional: Refresh data
+        fetchData();
+      });
+    }
+    
+    if (denyButton) {
+      denyButton.addEventListener('click', () => {
+        // Here you would update the request status in the database
+        // alert('Request denied!');
+        // Optional: Close the modal after denying
+        closeModal();
+        // Optional: Refresh data
+        fetchData();
+      });
+    }
+  };
+  
+  // Function to add a new subtrip
+  const addSubtrip = (employeeId, requestId) => {
+    // This would be implemented to add new subtrips to a travel request
+    console.log(`Adding new subtrip for employee ${employeeId} on request ${requestId}`);
+    
+    // Here you would show a form to collect subtrip details
+    // After collecting details, you would update the database
+    
+    // For now, just show an alert
+    alert('Add subtrip functionality would appear here');
+  };
+  
+  // Initialize the app
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchData();
+    setupEventListeners();
+  });
+// document.addEventListener('DOMContentLoaded', function() {
+    
+    // ############################### Advait ##########################################
+    
+    taskOverlay = document.querySelector(".task-overlay");
+    taskModal = document.querySelector(".task-modal");
+    taskModalClose = document.querySelector(".task-modal-close");
+    taskList = document.querySelector(".task-list");
+    viewAllBtn = document.querySelector(".view-all");
+    closeBtn = document.querySelector(".close-task-modal");
+    
+    console.log(viewAllBtn);
+    const firebaseURL = "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json";
+    async function fetchRecentTasks() {
+        try {
+            const response = await axios.get(firebaseURL);
+            const tasksData = response.data;
+            
+            if (!tasksData) return;
+    
+            // Convert object to an array of tasks
+            const tasksArray = Object.values(tasksData.tasks);
+    
+            // Sort tasks by date and time (newest first) and selecing the first 2 tasks
+            tasksArray.sort((a, b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
+            const recentTasks = tasksArray.slice(0, 2);
+    
+        
+            const task1 = document.getElementById("task-1");
+            const task2 = document.getElementById("task-2");
+    
+            // Update first task
+            if (recentTasks[0]) {
+                task1.querySelector(".date").textContent = recentTasks[0].date;
+                task1.querySelector(".time").textContent = recentTasks[0].time;
+                task1.querySelector(".task-description").textContent = recentTasks[0].task;
+            }
+    
+            // Update second task
+            if (recentTasks[1]) {
+                task2.querySelector(".date").textContent = recentTasks[1].date;
+                task2.querySelector(".time").textContent = recentTasks[1].time;
+                task2.querySelector(".task-description").textContent = recentTasks[1].task;
+            }
+    
+            taskList.innerHTML = "";
+            tasksArray.forEach(tasktodo => {
+                const taskItem = document.createElement("li");
+                taskItem.textContent = `${tasktodo.date} ${tasktodo.time} - ${tasktodo.task}`;
+                taskList.appendChild(taskItem);
+            })
+    
+    
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    }
+    
+    fetchRecentTasks();
+    console.log(viewAllBtn);
+    viewAllBtn.addEventListener("click", () =>{ taskOverlay.style.display = "flex"})
+    
+    closeBtn.addEventListener("click", () => { taskOverlay.style.display = "none"})
+    
+
 
 const fetchAndUpdateNotifications = async () => {
   try {
