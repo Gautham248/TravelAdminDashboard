@@ -126,7 +126,7 @@
                     <div class="request-card">
                         <!-- Section: Employee Details -->
                         <div class="request-card-employee">
-                            <div class="request-card-employeename">Jane Doe</div>
+                            <div class="request-card-employeename">Jane Smith</div>
                             <div class="request-card-employee-details">
                                 <div class="request-card-sourceanddestination">New york - India</div>
                                 <div class="request-card-traveldate">04-06-2025</div>
@@ -142,7 +142,7 @@
                     </div><div class="request-card">
                         <!-- Section: Employee Details -->
                         <div class="request-card-employee">
-                            <div class="request-card-employeename">Alice Davis</div>
+                            <div class="request-card-employeename">Mark Johnson</div>
                             <div class="request-card-employee-details">
                                 <div class="request-card-sourceanddestination">India - Japan</div>
                                 <div class="request-card-traveldate">11-09-2025</div>
@@ -185,14 +185,17 @@
             </div>
         </div>
     </div>
+
+    <!-- RIONA MARIA VARGHESE -->
+
     <div class="modal-section">
         <!-- The Modal PopUp Skeleton -->
         <div class="modal-section-popup" id="modal-section-popup">
             <div class="modal-section-popup-content">
                 <!-- Header -->
                 <div class="modal-section-popup-content-header">
-                    <div class="mspc-header-traveller">John Doe</div>
-                    <div class="mspc-header-status">Pending</div>
+                    <div class="mspc-header-traveller" id="traveller-name"></div>
+                    <div class="mspc-header-status" id="request-status"></div>
                 </div>
 
                 <!-- A divider -->
@@ -203,43 +206,35 @@
                     <div class="mspc-trd-row">
                         <div class="mspc-trd-project-code">
                             <div class="mspc-trd-project-code-title">PROJECT CODE:</div>
-                            <div class="mspc-trd-project-code-value">PRJ-001</div>
+                            <div class="mspc-trd-project-code-value" id="project-code"></div>
                         </div>
                         <div class="mspc-trd-main-trip">
                             <div class="mspc-trd-main-trip-title">MAIN TRIP:</div>
-                            <div class="mspc-trd-main-trip-value">New York → London</div>
+                            <div class="mspc-trd-main-trip-value" id="main-trip"></div>
+                            
                         </div>
                     </div>
                     <div class="mspc-trd-row">
                         <div class="mspc-trd-departure-date">
                             <div class="mspc-trd-departure-date-title">DEPARTURE DATE:</div>
-                            <div class="mspc-trd-departure-date-value">2025-04-01</div>
+                            <div class="mspc-trd-departure-date-value" id="departure-date"></div>
                         </div>
                         <div class="mspc-trd-passport-expiry">
                             <div class="mspc-trd-passport-expiry-title">PASSPORT EXPIRY:</div>
-                            <div class="mspc-trd-passport-expiry-value">2025-03-29</div>
+                            <div class="mspc-trd-passport-expiry-value" id="passport-expiry"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Sub-Trip Details -->
-                <div class="modal-section-popup-content-sub-trip-details">
+                <div class="modal-section-popup-content-sub-trip-details" id="modal-section-popup-content-sub-trip-details">
                     <div class="mspc-std-heading">Sub Trips</div>
-                    <div class="mspc-std-content">
-                        <div class="mspc-std-header">
-                            <div class="mspc-std-header-top">
-                                <i class="fas fa-car-alt" style="color: #0080FF"></i>
-                                <div class="mspc-std-header-top-mode">Pickup</div>
-                            </div>
-                            <i class="fa fa-trash" style="color: #ff5353"></i>
-                        </div>
-    
-                        <div class="mspc-std-source-destination">Office → JFK Airport</div>
-                        <div class="mspc-std-time">
-                            <i class="fa-solid fa-clock"></i>
-                            <div class="mspc-std-time-value">09:00</div>
-                        </div>
-                    </div>
+                </div>
+
+                <!-- Ticket Link -->
+                <div class="modal-section-popup-content-ticket-link">
+                    <label for="ticketlink">Ticket Link: </label>
+                    <input type="text" id="ticketlink" name="ticketlink" placeholder="Enter the ticket link" class="mspc-ticket-link">
                 </div>
 
                 <!-- Approve and Deny Buttons -->
@@ -250,6 +245,7 @@
             </div>
         </div>
     </div>
+    <div class="modal-section-overlay hidden"></div>
   
 
     <script src="dashboard.js"></script>
