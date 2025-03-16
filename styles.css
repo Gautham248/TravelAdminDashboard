@@ -115,13 +115,13 @@ body {
 }
 
 .stats-section .stats-section-title {
-  font-size: 20px;
+  font-size: 15px;
   margin-left: 10px;
 }
 .stats-section .stats-section-totalrequests-title,
 .stats-section .stats-section-threats-title,
 .stats-section .stats-section-verified-title {
-  font-size: 15px;
+  font-size: 14px;
 }
 .stats-section .stats-section-totalrequests,
 .stats-section .stats-section-threats,
@@ -132,7 +132,7 @@ body {
   padding: 8px;
   align-items: center;
   margin: 5px;
-  height: 68px;
+  height: 60px;
 }
 .stats-section .stats-section-totalrequests-content,
 .stats-section .stats-section-threats-content,
@@ -295,8 +295,11 @@ body {
   padding-left: 10px;
 }
 .todo-list .heading-section .view-all {
-  padding-right: 10px;
-  color: blue;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: inline-block;
 }
 .todo-list .task {
   width: 100%;
@@ -357,6 +360,48 @@ body {
   color: white;
   padding-left: 9px;
   height: 100%;
+}
+
+.task-overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+}
+.task-overlay .task-modal {
+  background: white;
+  width: 40%;
+  max-height: 80%;
+  padding: 20px;
+  border-radius: 7px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  overflow-y: auto;
+}
+.task-overlay .task-modal .close-task-modal {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 50px;
+  color: whitesmoke;
+}
+.task-overlay .task-modal .task-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+.task-overlay .task-modal .task-list li {
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
 }
 
 .modal-section {
@@ -504,6 +549,9 @@ body {
   border-color: #3498db;
   box-shadow: 0 0 3px rgba(52, 152, 219, 0.3);
 }
+.modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::-moz-placeholder {
+  color: #b1b1b1;
+}
 .modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::placeholder {
   color: #b1b1b1;
 }
@@ -541,11 +589,10 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
 }
 
 .hidden {
   display: none;
-}
-
-/*# sourceMappingURL=styles.css.map */
+}/*# sourceMappingURL=styles.css.map */
