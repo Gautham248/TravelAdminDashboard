@@ -673,3 +673,126 @@ const fetchAndUpdateNotifications = async () => {
 // Call function on page load
 fetchAndUpdateNotifications();
 
+//#######################GEORGE JOSE######################################################
+//##########################################################################################
+
+
+
+let chart;
+let currentYear;
+let currentQuarter = 0;
+let minYear;
+let maxYear;
+
+const quarterMonths = {
+    0: ["Jan", "Feb", "Mar"],
+    1: ["Apr", "May", "Jun"],
+    2: ["Jul", "Aug", "Sep"],
+    3: ["Oct", "Nov", "Dec"]
+};
+
+async function fetchAndUpdateChart(year = currentYear, quarter = currentQuarter) {
+    try {
+        const response = await axios.get('https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json');
+        const data = response.data;
+
+        let monthlyApproved = [0, 0, 0];
+        let monthlyRejected = [0, 0, 0];
+        let years = new Set();
+
+        for (let key in data.travelRequests) {
+            const request = data.travelRequests[key];
+            if (!request.departure) continue;
+            const departureDate = new Date(request.departure);
+            if (isNaN(departureDate)) continue;
+
+            const departureYear = departureDate.getFullYear();
+            years.add(departureYear);
+
+            const month = departureDate.getMonth();
+            const quarterIndex = Math.floor(month / 3);
+            const monthIndex = month % 3;
+
+            if (departureYear === year && quarterIndex === quarter) {
+                if (request.status.toLowerCase() === "verified" || request.status.toLowerCase() === "approved") {
+                    monthlyApproved[monthIndex]++;
+                } else if (request.status.toLowerCase() === "denied") {
+                    monthlyRejected[monthIndex]++;
+                }
+            }
+        }
+
+        // Set min and max years only if years exist
+        if (years.size > 0) {
+            minYear = Math.min(...years);
+            maxYear = Math.max(...years);
+            if (currentYear === undefined) currentYear = maxYear; // Set only once
+        }
+
+        document.getElementById("yearDisplay").textContent = currentYear;
+
+        const chartData = {
+            labels: quarterMonths[quarter],
+            datasets: [
+                {
+                    label: "Approved",
+                    data: monthlyApproved,
+                    backgroundColor: "green"
+                },
+                {
+                    label: "Rejected",
+                    data: monthlyRejected,
+                    backgroundColor: "red"
+                }
+            ]
+        };
+
+        if (chart) {
+            chart.data = chartData;
+            chart.update();
+        } else {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+// Ensure the year display is set correctly on page load
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("yearDisplay").textContent = currentYear;
+    fetchAndUpdateChart();
+});
+
+function changeYear(direction) {
+    let newYear = currentYear + direction;
+    if (newYear >= minYear && newYear <= maxYear) {
+        currentYear = newYear;
+        document.getElementById("yearDisplay").textContent = currentYear;
+        fetchAndUpdateChart(currentYear, currentQuarter);
+    }
+}
+
+function changeQuarter(quarter) {
+    currentQuarter = quarter;
+    fetchAndUpdateChart(currentYear, currentQuarter);
+}
+
+function updateChart(quarter) {
+    changeQuarter(quarter - 1);
+}
