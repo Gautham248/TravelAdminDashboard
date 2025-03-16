@@ -166,14 +166,14 @@ body {
 
 .stats-section{
     .stats-section-title {
-        font-size: 20px;
+        font-size: 15px;
         margin-left:10px;
     }
 
     .stats-section-totalrequests-title,
     .stats-section-threats-title,
     .stats-section-verified-title {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .stats-section-totalrequests,
@@ -185,7 +185,7 @@ body {
         padding: 8px;
         align-items: center;
         margin: 5px;
-        height:68px;
+        height:60px;
       
         &-content {
             display: flex;

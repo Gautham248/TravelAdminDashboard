@@ -115,13 +115,13 @@ body {
 }
 
 .stats-section .stats-section-title {
-  font-size: 20px;
+  font-size: 15px;
   margin-left: 10px;
 }
 .stats-section .stats-section-totalrequests-title,
 .stats-section .stats-section-threats-title,
 .stats-section .stats-section-verified-title {
-  font-size: 15px;
+  font-size: 14px;
 }
 .stats-section .stats-section-totalrequests,
 .stats-section .stats-section-threats,
@@ -132,7 +132,7 @@ body {
   padding: 8px;
   align-items: center;
   margin: 5px;
-  height: 68px;
+  height: 60px;
 }
 .stats-section .stats-section-totalrequests-content,
 .stats-section .stats-section-threats-content,
@@ -549,6 +549,9 @@ body {
   border-color: #3498db;
   box-shadow: 0 0 3px rgba(52, 152, 219, 0.3);
 }
+.modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::-moz-placeholder {
+  color: #b1b1b1;
+}
 .modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::placeholder {
   color: #b1b1b1;
 }
@@ -586,13 +589,10 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
 }
 
 .hidden {
   display: none;
-}
-
-/*# sourceMappingURL=styles.css.map */
-
 }/*# sourceMappingURL=styles.css.map */
