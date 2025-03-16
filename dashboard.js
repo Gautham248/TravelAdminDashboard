@@ -10,7 +10,7 @@ const fetchAndUpdateStats = async () => {
       return;
     }
 
-    console.log("Fetched Data:", data); // ✅ Debugging Line
+    console.log("Fetched Data:", data); // Debugging Line
 
     let threats = 0;
     let totalRequests = 0;
@@ -18,13 +18,13 @@ const fetchAndUpdateStats = async () => {
 
     const today = new Date();
 
-    // ✅ Calculate Threats (Passports Expiring in 30 Days)
+    // Calculate Threats (Passports Expiring in 30 Days)
     if (data.passports) {
       Object.values(data.passports).forEach((passport) => {
         const expiryDate = new Date(passport.expiry);
         const daysLeft = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
 
-        console.log(`Passport Expiry: ${passport.expiry}, Days Left: ${daysLeft}`); // ✅ Debugging Line
+        console.log(`Passport Expiry: ${passport.expiry}, Days Left: ${daysLeft}`); // Debugging Line
 
         if (daysLeft <= 30) threats++;
       });
@@ -35,14 +35,14 @@ const fetchAndUpdateStats = async () => {
       totalRequests = Object.keys(data.travelRequests).length;
     }
 
-    // ✅ Count Verified Travel Requests
+    // Count Verified Travel Requests
     if (data.travelRequests) {
       Object.values(data.travelRequests).forEach((request) => {
         if (request.status === "verified") verifiedRequests++;
       });
     }
 
-    // ✅ Update UI
+    // Update UI
     document.querySelector(".stats-section-threats-number").innerText = threats.toString();
     document.querySelector(".stats-section-totalrequests-number").innerText = totalRequests.toString();
     document.querySelector(".stats-section-verified-number").innerText = verifiedRequests.toString();
@@ -76,7 +76,7 @@ const fetchAndUpdateNotifications = async () => {
       const notifications = [];
 
       Object.entries(data.passports).forEach(([employeeId, passport]) => {
-          const employee = data.employees[employeeId]; // ✅ Direct lookup using object keys
+          const employee = data.employees[employeeId]; // Direct lookup using object keys
 
           if (!employee) {
               console.warn(`No matching employee found for passport expiry: ${passport.expiry}`);
@@ -97,7 +97,7 @@ const fetchAndUpdateNotifications = async () => {
           // Only add employees whose passport is expired or expires in 30 days
           if (daysLeft <= 30) {
               notifications.push({
-                  name: employee.name,  // ✅ Correct employee lookup
+                  name: employee.name,  // Correct employee lookup
                   expiry: passport.expiry,
                   daysLeft: daysLeft < 0 ? "Expired" : `${daysLeft} days left`,
                   isExpired: daysLeft < 0
@@ -105,7 +105,7 @@ const fetchAndUpdateNotifications = async () => {
           }
       });
 
-      // ✅ Update UI
+      // Update UI
       const notificationList = document.getElementById("notification-list");
       notificationList.innerHTML = ""; // Clear previous notifications
 
