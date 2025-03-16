@@ -591,4 +591,85 @@ const capitalizeFirstLetter = (string) => {
     
     closeBtn.addEventListener("click", () => { taskOverlay.style.display = "none"})
     
-// });
+
+
+const fetchAndUpdateNotifications = async () => {
+  try {
+      const response = await axios.get(
+          "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json"
+      );
+      const data = response.data;
+
+      if (!data || !data.passports || !data.employees) {
+          console.error("No valid data received.");
+          return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Normalize time
+
+      const notifications = [];
+
+      Object.entries(data.passports).forEach(([employeeId, passport]) => {
+          const employee = data.employees[employeeId]; 
+
+          if (!employee) {
+              console.warn(`No matching employee found for passport expiry: ${passport.expiry}`);
+              return;
+          }
+
+          const expiryDate = new Date(passport.expiry);
+          expiryDate.setHours(0, 0, 0, 0); // No
+
+          if (isNaN(expiryDate.getTime())) {
+              console.error("Invalid expiry date:", passport.expiry);
+              return;
+          }
+
+          const timeDiff = expiryDate.getTime() - today.getTime();
+          const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+          // Only add employees whose passport is expired or expires in 30 days
+          if (daysLeft <= 30) {
+              notifications.push({
+                  name: employee.name,  // Correct employee lookup
+                  expiry: passport.expiry,
+                  daysLeft: daysLeft < 0 ? "Expired" : `${daysLeft} days left`,
+                  isExpired: daysLeft < 0
+              });
+          }
+      });
+
+      // Update UI
+      const notificationList = document.getElementById("notification-list");
+      notificationList.innerHTML = ""; // Clear previous notifications
+
+      if (notifications.length === 0) {
+          notificationList.innerHTML = "<p>No urgent passport expiries.</p>";
+      } else {
+          notifications.forEach((employee) => {
+              const notificationCard = document.createElement("div");
+              notificationCard.classList.add("notification-card");
+
+              notificationCard.innerHTML = `
+                  <strong>${employee.name}</strong>
+                  <p class="expiry">
+                      Passport Expires: <span class="${employee.isExpired ? 'expired' : ''}">
+                          ${employee.isExpired ? "Expired" : employee.daysLeft}
+                      </span>
+                  </p>
+              `;
+
+              notificationList.appendChild(notificationCard);
+          });
+      }
+
+      console.log("Notifications Updated:", notifications);
+  } catch (error) {
+      console.error("Error fetching data:", error);
+  }
+};
+
+// Call function on page load
+fetchAndUpdateNotifications();
+

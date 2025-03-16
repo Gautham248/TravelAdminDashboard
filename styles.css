@@ -142,6 +142,37 @@ body {
   justify-content: space-between;
 }
 
+.notification-panel {
+  width: 300px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 4px;
+  padding-bottom: 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.notification-panel .notification-title {
+  margin-bottom: 10px;
+}
+.notification-panel .notification-list .notification-card {
+  background: #f8d7da;
+  border-left: 5px solid #dc3545;
+  padding:3px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.notification-panel .notification-list .notification-card strong {
+  display: block;
+  color: #721c24;
+}
+.notification-panel .notification-list .notification-card .expiry {
+  font-size: 14px;
+  color: #6c757d;
+}
+.notification-panel .notification-list .notification-card .expired {
+  color: red;
+  font-weight: bold;
+}
+
 .request {
   width: 100%;
   max-width: 600px;
