@@ -60,3 +60,60 @@ function changeYear(offset) {
 }
 
 updateChart(1);
+
+// #####################################################################
+
+const DB_URL = "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json";
+
+// Function to update stats dynamically
+async function updateStats() {
+    try {
+        // Fetch data from Firebase
+        const response = await axios.get(DB_URL);
+        const data = response.data;
+
+        if (!data || !data.travelRequests || !data.passports) {
+            console.error("Invalid data format");
+            return;
+        }
+
+        let totalRequests = Object.keys(data.travelRequests).length;
+        let verifiedRequests = 0;
+        let threatRequests = 0;
+        const today = new Date();
+
+        // Loop through travel requests
+        Object.values(data.travelRequests).forEach(request => {
+            if (request.status === "verified") {
+                verifiedRequests++;
+            }
+
+            const employeeId = request.employeeId;
+            const passport = data.passports[employeeId];
+
+            if (passport && passport.expiry) {
+                const expiryDate = new Date(passport.expiry);
+                const sixMonthsFromNow = new Date();
+                sixMonthsFromNow.setMonth(today.getMonth() + 6);
+
+                // If passport expires in less than 6 months, it's a threat
+                if (expiryDate < sixMonthsFromNow) {
+                    threatRequests++;
+                }
+            }
+        });
+
+        // Update UI
+        document.querySelector(".stats-section-totalrequests-number").textContent = totalRequests;
+        document.querySelector(".stats-section-threats-number").textContent = threatRequests;
+        document.querySelector(".stats-section-verified-number").textContent = verifiedRequests;
+
+        console.log("Stats updated:", { totalRequests, threatRequests, verifiedRequests });
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+// Call function when page loads
+updateStats();

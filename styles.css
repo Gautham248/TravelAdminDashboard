@@ -69,13 +69,13 @@ body {
 }
 
 .stats-section .stats-section-title {
-  font-size: 15px;
+  font-size: 20px;
   margin-left: 10px;
 }
 .stats-section .stats-section-totalrequests-title,
 .stats-section .stats-section-threats-title,
 .stats-section .stats-section-verified-title {
-  font-size: 14px;
+  font-size: 15px;
 }
 .stats-section .stats-section-totalrequests,
 .stats-section .stats-section-threats,
@@ -86,7 +86,7 @@ body {
   padding: 8px;
   align-items: center;
   margin: 5px;
-  height: 60px;
+  height: 68px;
 }
 .stats-section .stats-section-totalrequests-content,
 .stats-section .stats-section-threats-content,

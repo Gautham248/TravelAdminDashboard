@@ -93,8 +93,8 @@ body {
     position: absolute;
     top: 40px;
     left: 300px;
-    // display: none; 
     display: none; 
+    // display: none; 
     
     
 }
@@ -109,14 +109,14 @@ body {
 
 .stats-section{
     .stats-section-title {
-        font-size: 15px;
+        font-size: 20px;
         margin-left:10px;
     }
 
     .stats-section-totalrequests-title,
     .stats-section-threats-title,
     .stats-section-verified-title {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .stats-section-totalrequests,
@@ -128,7 +128,7 @@ body {
         padding: 8px;
         align-items: center;
         margin: 5px;
-        height:60px;
+        height:68px;
       
         &-content {
             display: flex;
