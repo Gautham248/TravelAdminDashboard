@@ -123,11 +123,12 @@ body {
         }
     }
     .notifications-graphs{
-        width: 20%;
+        width: 25%;
         // background-color: red;
         // overflow-x: auto;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
+        height: 100%;
         .notifications{
             width: 100%;
             height: 40%;
@@ -160,20 +161,18 @@ body {
 
 // ############################## YOUR STYLINGS GOES HERE ############################
 
-// ############################## MAHESH ############################
-
-
+// #################################### Mahesh #########################################
 
 .stats-section{
     .stats-section-title {
-        font-size: 20px;
+        font-size: 15px;
         margin-left:10px;
     }
 
     .stats-section-totalrequests-title,
     .stats-section-threats-title,
     .stats-section-verified-title {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .stats-section-totalrequests,
@@ -185,7 +184,7 @@ body {
         padding: 8px;
         align-items: center;
         margin: 5px;
-        height:68px;
+        height:60px;
       
         &-content {
             display: flex;
@@ -195,6 +194,46 @@ body {
           }
     }
     }
+//###################### MAHESH ######################
+
+    .notification-panel {
+        width: 300px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+        .notification-title {
+        }
+    
+        .notification-list {
+            
+    
+            .notification-card {
+                background: #f8d7da;
+                border-left: 5px solid #dc3545;
+                padding: 3px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+    
+                strong {
+                    display: block;
+                    color: #721c24;
+                }
+    
+                .expiry {
+                    font-size: 14px;
+                    color: #6c757d;
+                }
+    
+                .expired {
+                    color: red;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    
 
 //############################## CHRISTIA ######################################
 $hover-color: #e6b800;
@@ -286,7 +325,8 @@ $shadow-color: rgba(0, 0, 0, 0.1);
         background-color: $hover-color; // Darker yellow on hover
     }
 }
-//  ######################### GEORGE ############################################
+//  ######################### GEORGE ###########################################################################
+//  ######################### GEORGE ############################################################################
 
 // Variables needed for the chart container
 $button-bg-color: #ddd;
@@ -310,7 +350,9 @@ $button-hover-color: #bbb;
 }
 
 #chart-container {
-  width: 100%;  // Update to fit the parent container (.graphs)
+
+//   width: 95%;  // Update to fit the parent container (.graphs)
+   width: 300px;
   height: 100%; // Update to fit the parent container (.graphs)
   text-align: center;
   padding-top: 70px;
@@ -348,8 +390,8 @@ $button-hover-color: #bbb;
     }
   }
 }
-// ############################ ADVAIT ############################################
-// Advait
+
+//############################### Advait ####################################################################
 $todo-list-border-radius: 7px;
 .todo-list{
     width: 100%;
@@ -372,8 +414,13 @@ $todo-list-border-radius: 7px;
             padding-left: 10px;
         }
         .view-all{
-            padding-right: 10px;
-            color: blue;
+           
+            padding: 10px 15px;  
+            border: none;         
+            background: none;     
+            cursor: pointer;      
+            display: inline-block; 
+        
         }
     }
     .task{
@@ -441,6 +488,54 @@ $todo-list-border-radius: 7px;
                 }
             }
         }
+    }
+}
+
+
+.task-overlay{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    align-items: center;
+    justify-content: center;
+
+    .task-modal{
+        background: white;
+        width: 40%;
+        max-height: 80%;
+        padding: 20px;
+        border-radius: $todo-list-border-radius;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        overflow-y: auto;
+
+        .close-task-modal{
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 50px;
+            color: whitesmoke;
+
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+
+            li {
+                padding: 8px;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+
     }
 }
 

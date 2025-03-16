@@ -65,24 +65,24 @@
                 <div class="todo-list">
                     <div class="heading-section">
                         <h3 class="tasks-todo">Tasks to do</h3>
-                        <p class="view-all">View All</p>
+                        <button class="view-all">View All</button>
                     </div>
-                    <div class="task">
+                    <div class="task" id="task-1">
                         <div class="date-and-time">
-                            <p class="date">25 Mar 24</p>
-                            <p class="time">10:00 AM</p>
+                            <p class="date"></p>
+                            <p class="time"></p>
                         </div>
                         <div class="task-description">
-                            <p>Book flight tickets to Paris </p>
+                            <p></p>
                         </div>
                     </div>
-                    <div class="task">
+                    <div class="task" id="task-2">
                         <div class="date-and-time">
-                            <p class="date">25 Mar 24</p>
-                            <p class="time">10:00 AM</p>
+                            <p class="date"></p>
+                            <p class="time"></p>
                         </div>
                         <div class="task-description">
-                            <p>Research and book accomodations in Rome </p>
+                            <p></p>
                         </div>
                     </div>
                     <div class="task-container">
@@ -121,17 +121,18 @@
                 <div class="requestsection-allrequests">    
                          
             </div>
-        </div>
-
-
-
-
-      
-      
+            </div>
         </div>
         <div class="notifications-graphs" >
+        <!-- Mahesh -->
+        <div class="notifications-graphs">
             <div class="notifications">
-                Notifications
+                <div class="notification-panel">
+                    <h3 class="notification-title">Notifications</h3>
+                    <div id="notification-list" class="notification-list">
+                        <!-- Employee notifications will be added here -->
+                    </div>
+                </div>
             </div>
             <div class="graphs">
                 <!-- GEORGE -->
@@ -152,6 +153,8 @@
                
             </div>
          
+        </div>
+    
         </div>
     </div>
 
@@ -216,6 +219,13 @@
     </div>
     <div class="modal-section-overlay hidden"></div>
   
+    <div class="task-overlay" >
+        <div class="task-modal">
+            <span class="close-task-modal">&times;</span>
+            <h3>All tasks</h3>
+            <ul class="task-list"></ul>
+        </div>
+    </div>
 
     <script src="dashboard.js"></script>
 </body>

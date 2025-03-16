@@ -527,123 +527,149 @@ const capitalizeFirstLetter = (string) => {
     fetchData();
     setupEventListeners();
   });
+// document.addEventListener('DOMContentLoaded', function() {
+    
+    // ############################### Advait ##########################################
+    
+    taskOverlay = document.querySelector(".task-overlay");
+    taskModal = document.querySelector(".task-modal");
+    taskModalClose = document.querySelector(".task-modal-close");
+    taskList = document.querySelector(".task-list");
+    viewAllBtn = document.querySelector(".view-all");
+    closeBtn = document.querySelector(".close-task-modal");
+    
+    console.log(viewAllBtn);
+    const firebaseURL = "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json";
+    async function fetchRecentTasks() {
+        try {
+            const response = await axios.get(firebaseURL);
+            const tasksData = response.data;
+            
+            if (!tasksData) return;
+    
+            // Convert object to an array of tasks
+            const tasksArray = Object.values(tasksData.tasks);
+    
+            // Sort tasks by date and time (newest first) and selecing the first 2 tasks
+            tasksArray.sort((a, b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
+            const recentTasks = tasksArray.slice(0, 2);
+    
+        
+            const task1 = document.getElementById("task-1");
+            const task2 = document.getElementById("task-2");
+    
+            // Update first task
+            if (recentTasks[0]) {
+                task1.querySelector(".date").textContent = recentTasks[0].date;
+                task1.querySelector(".time").textContent = recentTasks[0].time;
+                task1.querySelector(".task-description").textContent = recentTasks[0].task;
+            }
+    
+            // Update second task
+            if (recentTasks[1]) {
+                task2.querySelector(".date").textContent = recentTasks[1].date;
+                task2.querySelector(".time").textContent = recentTasks[1].time;
+                task2.querySelector(".task-description").textContent = recentTasks[1].task;
+            }
+    
+            taskList.innerHTML = "";
+            tasksArray.forEach(tasktodo => {
+                const taskItem = document.createElement("li");
+                taskItem.textContent = `${tasktodo.date} ${tasktodo.time} - ${tasktodo.task}`;
+                taskList.appendChild(taskItem);
+            })
+    
+    
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    }
+    
+    fetchRecentTasks();
+    console.log(viewAllBtn);
+    viewAllBtn.addEventListener("click", () =>{ taskOverlay.style.display = "flex"})
+    
+    closeBtn.addEventListener("click", () => { taskOverlay.style.display = "none"})
+    
 
-  let chart;
-  let currentYear;
-  let currentQuarter = 0;
-  let minYear;
-  let maxYear;
-  
-  const quarterMonths = {
-      0: ["Jan", "Feb", "Mar"],
-      1: ["Apr", "May", "Jun"],
-      2: ["Jul", "Aug", "Sep"],
-      3: ["Oct", "Nov", "Dec"]
-  };
-  
-  async function fetchAndUpdateChart(year = currentYear, quarter = currentQuarter) {
-      try {
-          const response = await axios.get('https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json');
-          const data = response.data;
-  
-          let monthlyApproved = [0, 0, 0];
-          let monthlyRejected = [0, 0, 0];
-          let years = new Set();
-  
-          for (let key in data.travelRequests) {
-              const request = data.travelRequests[key];
-              if (!request.departure) continue;
-              const departureDate = new Date(request.departure);
-              if (isNaN(departureDate)) continue;
-  
-              const departureYear = departureDate.getFullYear();
-              years.add(departureYear);
-  
-              const month = departureDate.getMonth();
-              const quarterIndex = Math.floor(month / 3);
-              const monthIndex = month % 3;
-  
-              if (departureYear === year && quarterIndex === quarter) {
-                  if (request.status.toLowerCase() === "verified" || request.status.toLowerCase() === "approved") {
-                      monthlyApproved[monthIndex]++;
-                  } else if (request.status.toLowerCase() === "denied") {
-                      monthlyRejected[monthIndex]++;
-                  }
-              }
+
+const fetchAndUpdateNotifications = async () => {
+  try {
+      const response = await axios.get(
+          "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json"
+      );
+      const data = response.data;
+
+      if (!data || !data.passports || !data.employees) {
+          console.error("No valid data received.");
+          return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Normalize time
+
+      const notifications = [];
+
+      Object.entries(data.passports).forEach(([employeeId, passport]) => {
+          const employee = data.employees[employeeId]; 
+
+          if (!employee) {
+              console.warn(`No matching employee found for passport expiry: ${passport.expiry}`);
+              return;
           }
-  
-          // Set min and max years only if years exist
-          if (years.size > 0) {
-              minYear = Math.min(...years);
-              maxYear = Math.max(...years);
-              if (currentYear === undefined) currentYear = maxYear; // Set only once
+
+          const expiryDate = new Date(passport.expiry);
+          expiryDate.setHours(0, 0, 0, 0); // No
+
+          if (isNaN(expiryDate.getTime())) {
+              console.error("Invalid expiry date:", passport.expiry);
+              return;
           }
-  
-          document.getElementById("yearDisplay").textContent = currentYear;
-  
-          const chartData = {
-              labels: quarterMonths[quarter],
-              datasets: [
-                  {
-                      label: "Approved",
-                      data: monthlyApproved,
-                      backgroundColor: "green"
-                  },
-                  {
-                      label: "Rejected",
-                      data: monthlyRejected,
-                      backgroundColor: "red"
-                  }
-              ]
-          };
-  
-          if (chart) {
-              chart.data = chartData;
-              chart.update();
-          } else {
-              const ctx = document.getElementById('myChart').getContext('2d');
-              chart = new Chart(ctx, {
-                  type: 'bar',
-                  data: chartData,
-                  options: {
-                      plugins: {
-                          legend: {
-                              display: true,
-                              labels: {
-                                  color: 'black'
-                              }
-                          }
-                      }
-                  }
+
+          const timeDiff = expiryDate.getTime() - today.getTime();
+          const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+          // Only add employees whose passport is expired or expires in 30 days
+          if (daysLeft <= 30) {
+              notifications.push({
+                  name: employee.name,  // Correct employee lookup
+                  expiry: passport.expiry,
+                  daysLeft: daysLeft < 0 ? "Expired" : `${daysLeft} days left`,
+                  isExpired: daysLeft < 0
               });
           }
-  
-      } catch (error) {
-          console.error("Error fetching data:", error);
+      });
+
+      // Update UI
+      const notificationList = document.getElementById("notification-list");
+      notificationList.innerHTML = ""; // Clear previous notifications
+
+      if (notifications.length === 0) {
+          notificationList.innerHTML = "<p>No urgent passport expiries.</p>";
+      } else {
+          notifications.forEach((employee) => {
+              const notificationCard = document.createElement("div");
+              notificationCard.classList.add("notification-card");
+
+              notificationCard.innerHTML = `
+                  <strong>${employee.name}</strong>
+                  <p class="expiry">
+                      Passport Expires: <span class="${employee.isExpired ? 'expired' : ''}">
+                          ${employee.isExpired ? "Expired" : employee.daysLeft}
+                      </span>
+                  </p>
+              `;
+
+              notificationList.appendChild(notificationCard);
+          });
       }
+
+      console.log("Notifications Updated:", notifications);
+  } catch (error) {
+      console.error("Error fetching data:", error);
   }
-  
-  // Ensure the year display is set correctly on page load
-  document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("yearDisplay").textContent = currentYear;
-      fetchAndUpdateChart();
-  });
-  
-  function changeYear(direction) {
-      let newYear = currentYear + direction;
-      if (newYear >= minYear && newYear <= maxYear) {
-          currentYear = newYear;
-          document.getElementById("yearDisplay").textContent = currentYear;
-          fetchAndUpdateChart(currentYear, currentQuarter);
-      }
-  }
-  
-  function changeQuarter(quarter) {
-      currentQuarter = quarter;
-      fetchAndUpdateChart(currentYear, currentQuarter);
-  }
-  
-  function updateChart(quarter) {
-      changeQuarter(quarter - 1);
-  }
-    
+};
+
+// Call function on page load
+fetchAndUpdateNotifications();
+
