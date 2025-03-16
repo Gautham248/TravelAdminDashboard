@@ -591,8 +591,8 @@ const capitalizeFirstLetter = (string) => {
     
     closeBtn.addEventListener("click", () => { taskOverlay.style.display = "none"})
     
-
-
+//#################################MAHESH####################################################
+//##########################################################################################
 const fetchAndUpdateNotifications = async () => {
   try {
       const response = await axios.get(
@@ -619,7 +619,7 @@ const fetchAndUpdateNotifications = async () => {
           }
 
           const expiryDate = new Date(passport.expiry);
-          expiryDate.setHours(0, 0, 0, 0); // No
+          expiryDate.setHours(0, 0, 0, 0); 
 
           if (isNaN(expiryDate.getTime())) {
               console.error("Invalid expiry date:", passport.expiry);
@@ -632,7 +632,8 @@ const fetchAndUpdateNotifications = async () => {
           // Only add employees whose passport is expired or expires in 30 days
           if (daysLeft <= 30) {
               notifications.push({
-                  name: employee.name,  // Correct employee lookup
+                  name: employee.name,
+                  email: employee.email,
                   expiry: passport.expiry,
                   daysLeft: daysLeft < 0 ? "Expired" : `${daysLeft} days left`,
                   isExpired: daysLeft < 0
@@ -658,6 +659,7 @@ const fetchAndUpdateNotifications = async () => {
                           ${employee.isExpired ? "Expired" : employee.daysLeft}
                       </span>
                   </p>
+                  <button class="send-email-btn" onclick="sendEmail('${employee.email}')">Send Email</button>
               `;
 
               notificationList.appendChild(notificationCard);
@@ -669,6 +671,11 @@ const fetchAndUpdateNotifications = async () => {
       console.error("Error fetching data:", error);
   }
 };
+
+function sendEmail(employeeEmail) {
+    const mailtoLink = `mailto:${employeeEmail}?subject=Urgent: Passport Expiry Notice&body=Dear Employee,%0D%0A%0D%0AYour passport is set to expire soon. Please take the necessary actions.%0D%0A%0D%0ABest Regards,%0D%0AAdmin Team`;
+    window.location.href = mailtoLink;
+}
 
 // Call function on page load
 fetchAndUpdateNotifications();

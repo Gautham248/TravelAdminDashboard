@@ -196,43 +196,62 @@ body {
     }
 //###################### MAHESH ######################
 
-    .notification-panel {
-        width: 300px;
-        background: #fff;
-        border-radius: 10px;
-        padding: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-        .notification-title {
-        }
-    
-        .notification-list {
-            
-    
-            .notification-card {
-                background: #f8d7da;
-                border-left: 5px solid #dc3545;
-                padding: 3px;
-                margin-bottom: 10px;
-                border-radius: 5px;
-    
-                strong {
-                    display: block;
-                    color: #721c24;
-                }
-    
-                .expiry {
-                    font-size: 14px;
-                    color: #6c757d;
-                }
-    
-                .expired {
-                    color: red;
-                    font-weight: bold;
+.notification-panel {
+    width: 300px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .notification-title {
+    }
+
+    .notification-list {
+        .notification-card {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 3px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            strong {
+                color: #721c24;
+            }
+
+            .expiry {
+                font-size: 14px;
+                color: #6c757d;
+                flex-grow: 1;
+                margin-left: 10px;
+            }
+
+            .expired {
+                color: red;
+                font-weight: bold;
+            }
+
+            .send-email-btn {
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 3px;
+                cursor: pointer;
+                margin-left: 10px;
+                white-space: nowrap;
+
+                &:hover {
+                    background: #0056b3;
                 }
             }
         }
     }
+}
+
+
     
 
 //############################## CHRISTIA ######################################
