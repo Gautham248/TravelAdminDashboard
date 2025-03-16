@@ -291,7 +291,7 @@ $button-hover-color: #bbb;
     }
   }
 }
-// Advait
+//############################### Advait ####################################################################
 $todo-list-border-radius: 7px;
 .todo-list{
     width: 100%;
@@ -314,8 +314,13 @@ $todo-list-border-radius: 7px;
             padding-left: 10px;
         }
         .view-all{
-            padding-right: 10px;
-            color: blue;
+           
+            padding: 10px 15px;  
+            border: none;         
+            background: none;     
+            cursor: pointer;      
+            display: inline-block; 
+        
         }
     }
     .task{
@@ -383,6 +388,54 @@ $todo-list-border-radius: 7px;
                 }
             }
         }
+    }
+}
+
+
+.task-overlay{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    align-items: center;
+    justify-content: center;
+
+    .task-modal{
+        background: white;
+        width: 40%;
+        max-height: 80%;
+        padding: 20px;
+        border-radius: $todo-list-border-radius;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        overflow-y: auto;
+
+        .close-task-modal{
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 50px;
+            color: whitesmoke;
+
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+
+            li {
+                padding: 8px;
+                border-bottom: 1px solid #ccc;
+            }
+        }
+
     }
 }
 

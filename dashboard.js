@@ -1,62 +1,65 @@
-const data = [
-    { "year": 2023, "month": 1, "approved": 80, "rejected": 40 },
-    { "year": 2023, "month": 2, "approved": 75, "rejected": 35 },
-    { "year": 2023, "month": 3, "approved": 90, "rejected": 45 },
-    { "year": 2023, "month": 4, "approved": 100, "rejected": 50 },
-    { "year": 2023, "month": 5, "approved": 85, "rejected": 40 },
-    { "year": 2023, "month": 6, "approved": 95, "rejected": 55 },
-    { "year": 2023, "month": 7, "approved": 110, "rejected": 60 },
-    { "year": 2023, "month": 8, "approved": 90, "rejected": 30 },
-    { "year": 2023, "month": 9, "approved": 105, "rejected": 50 },
-    { "year": 2023, "month": 10, "approved": 115, "rejected": 65 },
-    { "year": 2023, "month": 11, "approved": 120, "rejected": 70 },
-    { "year": 2023, "month": 12, "approved": 130, "rejected": 75 },
-    { "year": 2024, "month": 1, "approved": 140, "rejected": 80 },
-    { "year": 2024, "month": 2, "approved": 130, "rejected": 70 },
-    { "year": 2024, "month": 3, "approved": 150, "rejected": 90 },
-    { "year": 2024, "month": 4, "approved": 160, "rejected": 85 },
-    { "year": 2024, "month": 5, "approved": 145, "rejected": 75 },
-    { "year": 2024, "month": 6, "approved": 110, "rejected": 70 },
-    { "year": 2024, "month": 7, "approved": 170, "rejected": 95 },
-    { "year": 2024, "month": 8, "approved": 180, "rejected": 100 },
-    { "year": 2024, "month": 9, "approved": 140, "rejected": 60 },
-    { "year": 2024, "month": 10, "approved": 190, "rejected": 110 },
-    { "year": 2024, "month": 11, "approved": 200, "rejected": 120 },
-    { "year": 2024, "month": 12, "approved": 210, "rejected": 130 }
-];
-
-let ctx = document.getElementById('myChart').getContext('2d');
-let chart;
-let currentYear = 2024;
-const maxYear = new Date().getFullYear();
-const minYear = Math.min(...data.map(d => d.year));
-
-function updateChart(quarter) {
-    document.getElementById("yearDisplay").textContent = currentYear;
-    const filteredData = data.filter(d => d.year === currentYear && Math.floor((d.month - 1) / 3) + 1 === quarter);
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const labels = filteredData.map(d => monthNames[d.month - 1]);
+// document.addEventListener('DOMContentLoaded', function() {
     
-    if (chart) chart.destroy();
-
-    chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { label: 'Approved', data: filteredData.map(d => d.approved), backgroundColor: 'green' },
-                { label: 'Rejected', data: filteredData.map(d => d.rejected), backgroundColor: 'red' }
-            ]
+    // ############################### Advait ##########################################
+    
+    taskOverlay = document.querySelector(".task-overlay");
+    taskModal = document.querySelector(".task-modal");
+    taskModalClose = document.querySelector(".task-modal-close");
+    taskList = document.querySelector(".task-list");
+    viewAllBtn = document.querySelector(".view-all");
+    closeBtn = document.querySelector(".close-task-modal");
+    
+    console.log(viewAllBtn);
+    const firebaseURL = "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json";
+    async function fetchRecentTasks() {
+        try {
+            const response = await axios.get(firebaseURL);
+            const tasksData = response.data;
+            
+            if (!tasksData) return;
+    
+            // Convert object to an array of tasks
+            const tasksArray = Object.values(tasksData.tasks);
+    
+            // Sort tasks by date and time (newest first) and selecing the first 2 tasks
+            tasksArray.sort((a, b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
+            const recentTasks = tasksArray.slice(0, 2);
+    
+        
+            const task1 = document.getElementById("task-1");
+            const task2 = document.getElementById("task-2");
+    
+            // Update first task
+            if (recentTasks[0]) {
+                task1.querySelector(".date").textContent = recentTasks[0].date;
+                task1.querySelector(".time").textContent = recentTasks[0].time;
+                task1.querySelector(".task-description").textContent = recentTasks[0].task;
+            }
+    
+            // Update second task
+            if (recentTasks[1]) {
+                task2.querySelector(".date").textContent = recentTasks[1].date;
+                task2.querySelector(".time").textContent = recentTasks[1].time;
+                task2.querySelector(".task-description").textContent = recentTasks[1].task;
+            }
+    
+            taskList.innerHTML = "";
+            tasksArray.forEach(tasktodo => {
+                const taskItem = document.createElement("li");
+                taskItem.textContent = `${tasktodo.date} ${tasktodo.time} - ${tasktodo.task}`;
+                taskList.appendChild(taskItem);
+            })
+    
+    
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
         }
-    });
-}
-
-function changeYear(offset) {
-    const newYear = currentYear + offset;
-    if (newYear >= minYear && newYear <= maxYear) {
-        currentYear = newYear;
-        updateChart(1);
     }
-}
-
-updateChart(1);
+    
+    fetchRecentTasks();
+    console.log(viewAllBtn);
+    viewAllBtn.addEventListener("click", () =>{ taskOverlay.style.display = "flex"})
+    
+    closeBtn.addEventListener("click", () => { taskOverlay.style.display = "none"})
+    
+// });
