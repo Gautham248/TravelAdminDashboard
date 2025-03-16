@@ -500,4 +500,57 @@ body {
   display: none;
 }
 
+.navbar-section {
+  background-color: #34495e;
+  color: white;
+  padding: 20px 0;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.navbar-section .logo {
+  display: flex;
+  align-items: center;
+  padding: 0 20px 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.navbar-section .logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.navbar-section .logo h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+.navbar-section .nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.navbar-section .nav-links .nav-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.navbar-section .nav-links .nav-item i {
+  width: 24px;
+  margin-right: 15px;
+  font-size: 18px;
+  text-align: center;
+}
+.navbar-section .nav-links .nav-item span {
+  font-size: 16px;
+}
+.navbar-section .nav-links .nav-item:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+}
+.navbar-section .nav-links .nav-item.active {
+  background-color: #3498db;
+  border-left: 4px solid #2ecc71;
+}
+
 /*# sourceMappingURL=styles.css.map */

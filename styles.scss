@@ -600,3 +600,67 @@ $todo-list-border-radius: 7px;
 .hidden {
     display: none;
 }
+
+// ###################################################################################
+// Navbar
+.navbar-section {
+    background-color: $dark-color;
+    color: white;
+    padding: 20px 0;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        padding: 0 20px 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        
+        img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+    
+    .nav-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            
+            i {
+                width: 24px;
+                margin-right: 15px;
+                font-size: 18px;
+                text-align: center;
+            }
+            
+            span {
+                font-size: 16px;
+            }
+            
+            &:hover {
+                background-color: rgba($primary-color, 0.2);
+            }
+            
+            &.active {
+                background-color: $primary-color;
+                border-left: 4px solid $secondary-color;
+            }
+        }
+    }
+}
