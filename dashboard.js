@@ -1,65 +1,105 @@
-const data = [
-    { "year": 2023, "month": 1, "approved": 80, "rejected": 40 },
-    { "year": 2023, "month": 2, "approved": 75, "rejected": 35 },
-    { "year": 2023, "month": 3, "approved": 90, "rejected": 45 },
-    { "year": 2023, "month": 4, "approved": 100, "rejected": 50 },
-    { "year": 2023, "month": 5, "approved": 85, "rejected": 40 },
-    { "year": 2023, "month": 6, "approved": 95, "rejected": 55 },
-    { "year": 2023, "month": 7, "approved": 110, "rejected": 60 },
-    { "year": 2023, "month": 8, "approved": 90, "rejected": 30 },
-    { "year": 2023, "month": 9, "approved": 105, "rejected": 50 },
-    { "year": 2023, "month": 10, "approved": 115, "rejected": 65 },
-    { "year": 2023, "month": 11, "approved": 120, "rejected": 70 },
-    { "year": 2023, "month": 12, "approved": 130, "rejected": 75 },
-    { "year": 2024, "month": 1, "approved": 140, "rejected": 80 },
-    { "year": 2024, "month": 2, "approved": 130, "rejected": 70 },
-    { "year": 2024, "month": 3, "approved": 150, "rejected": 90 },
-    { "year": 2024, "month": 4, "approved": 160, "rejected": 85 },
-    { "year": 2024, "month": 5, "approved": 145, "rejected": 75 },
-    { "year": 2024, "month": 6, "approved": 110, "rejected": 70 },
-    { "year": 2024, "month": 7, "approved": 170, "rejected": 95 },
-    { "year": 2024, "month": 8, "approved": 180, "rejected": 100 },
-    { "year": 2024, "month": 9, "approved": 140, "rejected": 60 },
-    { "year": 2024, "month": 10, "approved": 190, "rejected": 110 },
-    { "year": 2024, "month": 11, "approved": 200, "rejected": 120 },
-    { "year": 2024, "month": 12, "approved": 210, "rejected": 130 }
-];
 
-let ctx = document.getElementById('myChart').getContext('2d');
-let chart;
-let currentYear = 2024;
-const maxYear = new Date().getFullYear();
-const minYear = Math.min(...data.map(d => d.year));
+//########################################### Request section #################################
 
-function updateChart(quarter) {
-    document.getElementById("yearDisplay").textContent = currentYear;
-    const filteredData = data.filter(d => d.year === currentYear && Math.floor((d.month - 1) / 3) + 1 === quarter);
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const labels = filteredData.map(d => monthNames[d.month - 1]);
-    
-    if (chart) chart.destroy();
+const url = 'https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json';
 
-    chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { label: 'Approved', data: filteredData.map(d => d.approved), backgroundColor: 'green' },
-                { label: 'Rejected', data: filteredData.map(d => d.rejected), backgroundColor: 'red' }
-            ]
-        }
-    });
+axios.get(url)
+  .then(response => {
+    const dataRequest = response.data;
+    console.log(dataRequest);  
+    renderRequestsList(dataRequest);
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
+function renderRequestsList(dataRequest) {
+  const travelDetails = Object.values(dataRequest.travelRequests).map(request => {
+    const employee = dataRequest.employees[request.employeeId];
+    const passport = dataRequest.passports[request.employeeId];
+
+    return {
+      departureDate: request.departure,
+      source: request.source,
+      destination: request.destination,
+      projectCode: request.projectCode,
+      employeeName: employee.name,
+      passportExpiry: passport.expiry,
+      status: request.status  
+    };
+  });
+
+
+  renderRequestCards(travelDetails);
 }
 
-function changeYear(offset) {
-    const newYear = currentYear + offset;
-    if (newYear >= minYear && newYear <= maxYear) {
-        currentYear = newYear;
-        updateChart(1);
-    }
+function renderRequestCards(travelDetails) {
+  const container = document.querySelector('.requestsection-allrequests');   
+
+  container.innerHTML = '';
+
+  travelDetails.forEach(dataRequest => {
+    const card = createRequestCard(dataRequest);
+    container.appendChild(card);
+  });
 }
 
-updateChart(1);
+function createRequestCard(dataRequest) {
+ 
+  const card = document.createElement('div');
+  card.classList.add('request-card');
+
+ 
+  const employeeSection = document.createElement('div');
+  employeeSection.classList.add('request-card-employee');
+
+  const nameElement = document.createElement('div');
+  nameElement.classList.add('request-card-employeename');
+  nameElement.textContent = dataRequest.employeeName;
+
+  const detailsSection = document.createElement('div');
+  detailsSection.classList.add('request-card-employee-details');
+
+  const sourceAndDestinationElement = document.createElement('div');
+  sourceAndDestinationElement.classList.add('request-card-sourceanddestination');
+  sourceAndDestinationElement.textContent = `${dataRequest.source} - ${dataRequest.destination}`;
+
+  const travelDateElement = document.createElement('div');
+  travelDateElement.classList.add('request-card-traveldate');
+  travelDateElement.textContent = `${dataRequest.departureDate}`;
+
+  const projectCodeElement = document.createElement('div');
+  projectCodeElement.classList.add('request-card-projectcode');
+  projectCodeElement.textContent = `${dataRequest.projectCode}`;
+
+  const passportExpiryElement = document.createElement('div');
+  passportExpiryElement.classList.add('request-card-passport-expiry');
+  passportExpiryElement.textContent = `Passport expires on ${dataRequest.passportExpiry}`;
+
+  detailsSection.appendChild(sourceAndDestinationElement);
+  detailsSection.appendChild(travelDateElement);
+  detailsSection.appendChild(projectCodeElement);
+  detailsSection.appendChild(passportExpiryElement);
+
+  employeeSection.appendChild(nameElement);
+  employeeSection.appendChild(detailsSection);
+
+  card.appendChild(employeeSection);
+
+  const buttonSection = document.createElement('div');
+  buttonSection.classList.add('request-card-sectionbutton');
+
+  const statusButton = document.createElement('button');
+  statusButton.classList.add('request-card-statusbutton');
+  statusButton.textContent = dataRequest.status || 'Pending'; 
+
+  buttonSection.appendChild(statusButton);
+  card.appendChild(buttonSection);
+
+  return card;
+}
+
+///#################################################################################################
 
 // #####################################################################
 
