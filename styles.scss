@@ -351,8 +351,9 @@ $button-hover-color: #bbb;
 
 // Chart container styles - use ID as it appears in the HTML
 #chart-container {
+
 //   width: 95%;  // Update to fit the parent container (.graphs)
-width: 300px;
+   width: 300px;
   height: 100%; // Update to fit the parent container (.graphs)
   text-align: center;
   padding-top: 50px;
