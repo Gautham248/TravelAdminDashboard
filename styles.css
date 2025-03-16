@@ -92,9 +92,8 @@ body {
   overflow-y: auto;
 }
 .dashboard_main .notifications-graphs {
-  width: 20%;
-  display: flex;
-  flex-direction: column;
+  width: 25%;
+  height: 100%;
 }
 .dashboard_main .notifications-graphs .notifications {
   width: 100%;
@@ -146,17 +145,13 @@ body {
   width: 300px;
   background: #fff;
   border-radius: 10px;
-  padding: 4px;
-  padding-bottom: 0px;
+  padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.notification-panel .notification-title {
-  margin-bottom: 10px;
 }
 .notification-panel .notification-list .notification-card {
   background: #f8d7da;
   border-left: 5px solid #dc3545;
-  padding:3px;
+  padding: 3px;
   margin-bottom: 10px;
   border-radius: 5px;
 }
@@ -257,7 +252,7 @@ body {
 }
 
 #chart-container {
-  width: 95%;
+  width: 300px;
   height: 100%;
   text-align: center;
   padding-top: 50px;
@@ -402,8 +397,7 @@ body {
   height: 100%;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.5);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   align-items: center;
   justify-content: center;
 }
@@ -580,9 +574,6 @@ body {
   border-color: #3498db;
   box-shadow: 0 0 3px rgba(52, 152, 219, 0.3);
 }
-.modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::-moz-placeholder {
-  color: #b1b1b1;
-}
 .modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::placeholder {
   color: #b1b1b1;
 }
@@ -620,10 +611,11 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
 }
 
 .hidden {
   display: none;
-}/*# sourceMappingURL=styles.css.map */
+}
+
+/*# sourceMappingURL=styles.css.map */
