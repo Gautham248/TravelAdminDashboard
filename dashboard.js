@@ -10,7 +10,7 @@ const fetchAndUpdateStats = async () => {
       return;
     }
 
-    console.log("Fetched Data:", data); // Debugging Line
+    console.log("Fetched Data:", data);
 
     let threats = 0;
     let totalRequests = 0;
@@ -76,7 +76,7 @@ const fetchAndUpdateNotifications = async () => {
       const notifications = [];
 
       Object.entries(data.passports).forEach(([employeeId, passport]) => {
-          const employee = data.employees[employeeId]; // Direct lookup using object keys
+          const employee = data.employees[employeeId]; 
 
           if (!employee) {
               console.warn(`No matching employee found for passport expiry: ${passport.expiry}`);
@@ -84,7 +84,7 @@ const fetchAndUpdateNotifications = async () => {
           }
 
           const expiryDate = new Date(passport.expiry);
-          expiryDate.setHours(0, 0, 0, 0); // Normalize time
+          expiryDate.setHours(0, 0, 0, 0); // No
 
           if (isNaN(expiryDate.getTime())) {
               console.error("Invalid expiry date:", passport.expiry);
