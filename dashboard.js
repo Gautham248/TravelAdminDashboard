@@ -1,4 +1,4 @@
-const DB_URL = 'https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json';
+const DB_URL = 'https://js-ilp-default-rtdb.firebaseio.com/Xpress/.json';
 
 let allData = null;
 let activeTab = 'all';
@@ -294,7 +294,7 @@ const updateStats = () => {
     if (passport?.expiry) {
       const expiryDate = new Date(passport.expiry);
       const sixMonthsFromNow = new Date();
-      sixMonthsFromNow.setMonth(today.getMonth() + 6);
+      sixMonthsFromNow.setMonth(today.getMonth() + 1);
 
       if (expiryDate < sixMonthsFromNow) {
         threatRequests++;
@@ -424,7 +424,7 @@ const capitalizeFirstLetter = (string) => {
     
     // ############################### Advait ##########################################
     
-    const firebaseURL = "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/tasks.json";
+    const firebaseURL = "https://js-ilp-default-rtdb.firebaseio.com/Xpress/tasks.json";
 
     const taskOverlay = document.querySelector(".task-overlay");
     const taskModal = document.querySelector(".task-modal");
@@ -446,7 +446,7 @@ const capitalizeFirstLetter = (string) => {
             const tasksArray = Object.values(tasksData);
     
             // Sort tasks by date and time (newest first) and select the first 2 tasks
-            tasksArray.sort((a, b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
+            tasksArray.sort((a, b) =>  new Date(`${a.date} ${a.time}`)-new Date(`${b.date} ${b.time}`));
             const recentTasks = tasksArray.slice(0, 2);
     
 
@@ -502,7 +502,6 @@ const capitalizeFirstLetter = (string) => {
                 date: taskDate,
                 time: taskTime,
                 task: taskInput,
-                employeeId: "" // Default empty
             }
         };
     
@@ -539,7 +538,7 @@ const capitalizeFirstLetter = (string) => {
 const fetchAndUpdateNotifications = async () => {
   try {
       const response = await axios.get(
-          "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json"
+          "https://js-ilp-default-rtdb.firebaseio.com/Xpress/.json"
       );
       const data = response.data;
 
@@ -642,7 +641,7 @@ const quarterMonths = {
 
 async function fetchAndUpdateChart(year = currentYear, quarter = currentQuarter) {
     try {
-        const response = await axios.get('https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json');
+        const response = await axios.get('https://js-ilp-default-rtdb.firebaseio.com/Xpress/.json');
         const data = response.data;
 
         let monthlyApproved = [0, 0, 0];
