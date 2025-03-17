@@ -87,6 +87,8 @@ body {
                             border: none;
                             outline: none;
                             font-size: 16px;
+                            border-radius: 4px;
+                            padding: 4px;
                         }
                     } 
                     .tabs {
@@ -208,7 +210,7 @@ body {
     margin-left: 10px;
     width: 300px;
     height: 100%;
-    background: #fff;
+    // background: #fff;
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -430,6 +432,7 @@ $button-hover-color: #bbb;
 //############################### Advait ####################################################################
 $todo-list-border-radius: 7px;
 .todo-list{
+    // background-color: white;
     width: 100%;
     font-size: 16px;
     border-radius: $todo-list-border-radius;
@@ -491,13 +494,9 @@ $todo-list-border-radius: 7px;
             display: flex;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: $todo-list-border-radius;
-            .calendar-icon{
-                flex: 1;
-                padding-left: 9px;
-                // padding-top: 5px;
-            }
+         
             .add-new-task{
-                flex: 7;
+                flex: 6;
                 // padding-top: 5px;
                 padding-bottom: 5px;
                 #task-input{
@@ -505,16 +504,18 @@ $todo-list-border-radius: 7px;
                     outline: none;
                     background-color: inherit;
                     height: 100%;
-                    width: 90%;
+                    width: 80%;
                 }
             }
             .submit-button{
                 flex: 1;
                 background-color: blue;
                 border: none;
+                margin-right: 5px;
                 border-top-right-radius: $todo-list-border-radius;
                 border-bottom-right-radius: $todo-list-border-radius;
                 padding-top: 5px;
+                display: flex;
                 #arrow-icon{
                     color: white;
                     padding-left: 9px;
