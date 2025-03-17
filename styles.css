@@ -15,6 +15,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
+  overflow: hidden;
 }
 .dashboard_main .navbar-section {
   height: 100%;
@@ -23,6 +24,7 @@ body {
 .dashboard_main .central-tab {
   height: 100%;
   width: 60%;
+  padding-top: 10px;
 }
 .dashboard_main .central-tab .stats-tasks {
   display: flex;
@@ -88,8 +90,10 @@ body {
   color: var(--white);
 }
 .dashboard_main .central-tab .requestsection .requestsection-allrequests {
-  max-height: 90%;
+  max-height: 85%;
   overflow-y: auto;
+  border: 0.5px solid grey;
+  border-radius: 8px;
 }
 .dashboard_main .notifications-graphs {
   width: 25%;
@@ -131,7 +135,7 @@ body {
   padding: 8px;
   align-items: center;
   margin: 5px;
-  height: 60px;
+  height: 70px;
 }
 .stats-section .stats-section-totalrequests-content,
 .stats-section .stats-section-threats-content,
@@ -142,11 +146,17 @@ body {
 }
 
 .notification-panel {
+  margin-top: 10px;
+  margin-left: 10px;
   width: 300px;
+  height: 100%;
   background: #fff;
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none;
 }
 .notification-panel .notification-list .notification-card {
   background: #f8d7da;
@@ -270,10 +280,12 @@ body {
 
 #chart-container {
   width: 300px;
-  height: 100%;
+  height: 80%;
   text-align: center;
-  padding-top: 70px;
+  margin-top: 50px;
+  margin-left: 10px;
   padding-right: 20px;
+  padding-top: 20px;
   background-color: white;
   border-radius: 20px;
 }
@@ -414,8 +426,7 @@ body {
   height: 100%;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.5);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   align-items: center;
   justify-content: center;
 }
@@ -592,9 +603,6 @@ body {
   border-color: #3498db;
   box-shadow: 0 0 3px rgba(52, 152, 219, 0.3);
 }
-.modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::-moz-placeholder {
-  color: #b1b1b1;
-}
 .modal-section .modal-section-popup .modal-section-popup-content-ticket-link .mspc-ticket-link::placeholder {
   color: #b1b1b1;
 }
@@ -632,8 +640,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
 }
 
 .hidden {
@@ -691,4 +698,6 @@ body {
 .navbar-section .nav-links .nav-item.active {
   background-color: #3498db;
   border-left: 4px solid #2ecc71;
-}/*# sourceMappingURL=styles.css.map */
+}
+
+/*# sourceMappingURL=styles.css.map */
