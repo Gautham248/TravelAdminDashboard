@@ -531,65 +531,109 @@ const capitalizeFirstLetter = (string) => {
     
     // ############################### Advait ##########################################
     
-    taskOverlay = document.querySelector(".task-overlay");
-    taskModal = document.querySelector(".task-modal");
-    taskModalClose = document.querySelector(".task-modal-close");
-    taskList = document.querySelector(".task-list");
-    viewAllBtn = document.querySelector(".view-all");
-    closeBtn = document.querySelector(".close-task-modal");
+    const firebaseURL = "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/tasks.json";
+
+    const taskOverlay = document.querySelector(".task-overlay");
+    const taskModal = document.querySelector(".task-modal");
+    const taskModalClose = document.querySelector(".task-modal-close");
+    const taskList = document.querySelector(".task-list");
+    const viewAllBtn = document.querySelector(".view-all");
+    const closeBtn = document.querySelector(".close-task-modal");
     
-    console.log(viewAllBtn);
-    const firebaseURL = "https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json";
+    // Function to fetch and display recent tasks
     async function fetchRecentTasks() {
         try {
             const response = await axios.get(firebaseURL);
             const tasksData = response.data;
-            
+    
             if (!tasksData) return;
     
             // Convert object to an array of tasks
-            const tasksArray = Object.values(tasksData.tasks);
+            const tasksArray = Object.values(tasksData);
     
-            // Sort tasks by date and time (newest first) and selecing the first 2 tasks
+            // Sort tasks by date and time (newest first) and select the first 2 tasks
             tasksArray.sort((a, b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
             const recentTasks = tasksArray.slice(0, 2);
     
-        
-            const task1 = document.getElementById("task-1");
-            const task2 = document.getElementById("task-2");
-    
             // Update first task
             if (recentTasks[0]) {
-                task1.querySelector(".date").textContent = recentTasks[0].date;
-                task1.querySelector(".time").textContent = recentTasks[0].time;
-                task1.querySelector(".task-description").textContent = recentTasks[0].task;
+                document.getElementById("task-1").querySelector(".date").textContent = recentTasks[0].date;
+                document.getElementById("task-1").querySelector(".time").textContent = recentTasks[0].time;
+                document.getElementById("task-1").querySelector(".task-description p").textContent = recentTasks[0].task;
             }
     
             // Update second task
             if (recentTasks[1]) {
-                task2.querySelector(".date").textContent = recentTasks[1].date;
-                task2.querySelector(".time").textContent = recentTasks[1].time;
-                task2.querySelector(".task-description").textContent = recentTasks[1].task;
+                document.getElementById("task-2").querySelector(".date").textContent = recentTasks[1].date;
+                document.getElementById("task-2").querySelector(".time").textContent = recentTasks[1].time;
+                document.getElementById("task-2").querySelector(".task-description p").textContent = recentTasks[1].task;
             }
     
+            // Populate full task list
             taskList.innerHTML = "";
             tasksArray.forEach(tasktodo => {
                 const taskItem = document.createElement("li");
                 taskItem.textContent = `${tasktodo.date} ${tasktodo.time} - ${tasktodo.task}`;
                 taskList.appendChild(taskItem);
-            })
-    
+            });
     
         } catch (error) {
             console.error("Error fetching tasks:", error);
         }
     }
     
-    fetchRecentTasks();
-    console.log(viewAllBtn);
-    viewAllBtn.addEventListener("click", () =>{ taskOverlay.style.display = "flex"})
+    // Function to add a new task
+    document.querySelector(".submit-button").addEventListener("click", async () => {
+      console.log("submit button clicked");
+        const taskInput = document.getElementById("task-input").value.trim();
+        const taskDate = document.getElementById("task-date").value;
+        const taskTime = document.getElementById("task-time").value;
     
-    closeBtn.addEventListener("click", () => { taskOverlay.style.display = "none"})
+        if (!taskInput || !taskDate || !taskTime) {
+            alert("Please enter a task, date, and time!");
+            return;
+        }
+    
+        // Generate a unique task number
+        const taskNo = `task${Date.now()}`;
+    
+        // Create the new task object
+        const newTask = {
+            [taskNo]: {
+                date: taskDate,
+                time: taskTime,
+                task: taskInput,
+                employeeId: "" // Default empty
+            }
+        };
+    
+        try {
+            const response = await axios.patch(firebaseURL, newTask);
+            if (response.status === 200) {
+                alert("Task added successfully!");
+                document.getElementById("task-input").value = ""; // Clear input field
+                document.getElementById("task-date").value = ""; // Clear date
+                document.getElementById("task-time").value = ""; // Clear time
+                fetchRecentTasks(); // Refresh displayed tasks
+            }
+        } catch (error) {
+            console.error("Error adding task:", error);
+        }
+    });
+    
+    // Event listener for View All button
+    viewAllBtn.addEventListener("click", () => {
+        taskOverlay.style.display = "flex";
+    });
+    
+    // Event listener for closing modal
+    closeBtn.addEventListener("click", () => {
+        taskOverlay.style.display = "none";
+    });
+    
+    // Initial fetch to populate tasks
+    fetchRecentTasks();
+    
     
 //#################################MAHESH####################################################
 //##########################################################################################
