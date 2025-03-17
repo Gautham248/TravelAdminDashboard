@@ -1,12 +1,9 @@
-// Firebase URL constant
 const DB_URL = 'https://js-ilp-default-rtdb.firebaseio.com/ExperionTravels/.json';
 
-// Global state variables
 let allData = null;
 let activeTab = 'all';
 let searchTerm = '';
 
-// Fetch data once and store it
 const fetchData = async () => {
   try {
     const response = await axios.get(DB_URL);
@@ -19,20 +16,20 @@ const fetchData = async () => {
   }
 };
 
-// Function to filter data based on active tab and search term
 const applyFiltersAndRender = () => {
   if (!allData?.travelRequests) return;
   
   const today = new Date();
+  const oneMonthFromNow = new Date();
+  oneMonthFromNow.setMonth(today.getMonth() + 1);
+  
   const filteredRequests = {};
   
-  // Filter based on search term and active tab
   Object.entries(allData.travelRequests).forEach(([requestId, request]) => {
     const employee = allData.employees[request.employeeId];
     const passport = allData.passports[request.employeeId];
     let includeInResults = true;
     
-    // Search filter
     if (searchTerm) {
       const employeeName = employee?.name?.toLowerCase() || '';
       const source = request.source?.toLowerCase() || '';
@@ -47,16 +44,13 @@ const applyFiltersAndRender = () => {
       }
     }
     
-    // Tab filter
     if (activeTab !== 'all') {
-      // For upcoming tab - show requests with departure dates in the future
       if (activeTab === 'upcoming') {
         const departureDate = new Date(request.departure);
-        if (departureDate <= today) {
+        if (departureDate <= today || departureDate > oneMonthFromNow) {
           includeInResults = false;
         }
       }
-      // For threats tab - show requests with passports expiring within 6 months
       else if (activeTab === 'threats') {
         const expiryDate = new Date(passport?.expiry);
         const sixMonthsFromNow = new Date();
@@ -66,7 +60,6 @@ const applyFiltersAndRender = () => {
           includeInResults = false;
         }
       }
-      // For verified tab - show only verified requests
       else if (activeTab === 'verified') {
         if (request.status !== 'verified') {
           includeInResults = false;
@@ -74,7 +67,6 @@ const applyFiltersAndRender = () => {
       }
     }
     
-    // Include request if it passed all filters
     if (includeInResults) {
       filteredRequests[requestId] = request;
     }
@@ -82,7 +74,6 @@ const applyFiltersAndRender = () => {
   
   renderRequestsList(filteredRequests);
 };
-
 const renderRequestsList = (filteredRequests = null) => {
   const requestsToRender = filteredRequests || allData.travelRequests;
   
@@ -129,7 +120,6 @@ const createRequestCard = (dataRequest) => {
   const card = document.createElement('div');
   card.classList.add('request-card');
   
-  // Create the entire card structure using template literal
   card.innerHTML = `
     <div class="request-card-employee">
       <div class="request-card-employeename">${dataRequest.employeeName}</div>
@@ -146,7 +136,6 @@ const createRequestCard = (dataRequest) => {
     </div>
   `;
   
-  // Add click event to open modal
   card.addEventListener('click', () => {
     openModal(dataRequest);
   });
@@ -155,25 +144,19 @@ const createRequestCard = (dataRequest) => {
 };
 
 const openModal = (dataRequest) => {
-  // Get modal elements
   const modal = document.querySelector('.modal-section');
   const modalOverlay = document.querySelector('.modal-section-overlay');
   const modalPopup = document.getElementById("modal-section-popup");
   
   if (!modal) return;
   
-  // Update modal content
   try {
-    // Update traveler information
     updateModalHeader(dataRequest);
     
-    // Update travel request details
     updateTravelRequestDetails(dataRequest);
     
-    // Render subtrips
     renderSubTrips(dataRequest);
     
-    // Show the modal
     modal.style.display = 'block';
     if (modalPopup) modalPopup.classList.add("active");
     if (modalOverlay) modalOverlay.classList.remove('hidden');
@@ -193,11 +176,9 @@ const updateModalHeader = (dataRequest) => {
   if (statusElement) {
     statusElement.textContent = dataRequest.status || 'Pending';
     
-    // Reset styles
     statusElement.style.backgroundColor = '';
     statusElement.style.color = '';
     
-    // Apply appropriate styling
     if (dataRequest.status?.toLowerCase() === 'verified') {
       statusElement.style.backgroundColor = 'rgb(15, 148, 15)';
       statusElement.style.color = 'white';
@@ -212,25 +193,21 @@ const updateModalHeader = (dataRequest) => {
 };
 
 const updateTravelRequestDetails = (dataRequest) => {
-  // Update project code
   const projectCodeElement = document.querySelector('.mspc-trd-project-code-value');
   if (projectCodeElement) {
     projectCodeElement.textContent = dataRequest.projectCode;
   }
 
-  // Update main trip
   const mainTripElement = document.querySelector('.mspc-trd-main-trip-value');
   if (mainTripElement) {
     mainTripElement.textContent = `${dataRequest.source} → ${dataRequest.destination}`;
   }
 
-  // Update departure date
   const departureDateElement = document.querySelector('.mspc-trd-departure-date-value');
   if (departureDateElement) {
     departureDateElement.textContent = formatDate(dataRequest.departureDate);
   }
 
-  // Update passport expiry
   const passportExpiryElement = document.querySelector('.mspc-trd-passport-expiry-value');
   if (passportExpiryElement) {
     passportExpiryElement.textContent = formatDate(dataRequest.passportExpiry);
@@ -244,16 +221,13 @@ const renderSubTrips = (dataRequest) => {
     return; 
   }
   
-  // Clear previous content
   container.innerHTML = '';
   
-  // Add heading back
   const heading = document.createElement('div');
   heading.classList.add('mspc-std-heading');
   heading.textContent = 'Sub Trips';
   container.appendChild(heading);
   
-  // Check if this request has sub-trips
   if (!dataRequest.subTrips || Object.keys(dataRequest.subTrips).length === 0) {
     const noSubTripsMsg = document.createElement('div');
     noSubTripsMsg.classList.add('mspc-std-no-subtrips');
@@ -262,13 +236,10 @@ const renderSubTrips = (dataRequest) => {
     return;
   }
   
-  // Display each sub-trip
   Object.entries(dataRequest.subTrips).forEach(([subTripId, subTrip]) => {
-    // Create sub-trip content container
     const content = document.createElement('div');
     content.classList.add('mspc-std-content');
     
-    // Set appropriate icon based on sub-trip type
     let iconClass = 'fa-car-alt';
     if (subTrip.type === 'hotel') iconClass = 'fa-hotel';
     else if (subTrip.type === 'meeting') iconClass = 'fa-briefcase';
@@ -291,11 +262,9 @@ const renderSubTrips = (dataRequest) => {
       </div>
     `;
     
-    // Add delete functionality to trash icon
     const trashIcon = content.querySelector('.fa-trash');
     trashIcon.addEventListener('click', (event) => {
-      event.stopPropagation(); // Prevent modal from closing
-      // Here you would add the delete functionality
+      event.stopPropagation(); 
       alert(`Delete subtrip: ${subTripId}`);
     });
     
@@ -303,7 +272,6 @@ const renderSubTrips = (dataRequest) => {
   });
 };
 
-// Function to update stats dynamically
 const updateStats = () => {
   if (!allData?.travelRequests || !allData?.passports) {
     console.error("Invalid data format");
@@ -315,7 +283,6 @@ const updateStats = () => {
   let threatRequests = 0;
   const today = new Date();
 
-  // Loop through travel requests
   Object.values(allData.travelRequests).forEach(request => {
     if (request.status === "verified") {
       verifiedRequests++;
@@ -329,14 +296,13 @@ const updateStats = () => {
       const sixMonthsFromNow = new Date();
       sixMonthsFromNow.setMonth(today.getMonth() + 6);
 
-      // If passport expires in less than 6 months, it's a threat
       if (expiryDate < sixMonthsFromNow) {
         threatRequests++;
       }
     }
   });
 
-  // Update UI
+
   const totalElement = document.querySelector(".stats-section-totalrequests-number");
   const threatsElement = document.querySelector(".stats-section-threats-number");
   const verifiedElement = document.querySelector(".stats-section-verified-number");
@@ -348,7 +314,7 @@ const updateStats = () => {
   console.log("Stats updated:", { totalRequests, threatRequests, verifiedRequests });
 };
 
-// Helper functions
+
 const formatDate = (dateString) => {
   if (!dateString) return 'N/A';
   
@@ -365,44 +331,8 @@ const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-// const addNewTask = () => {
-//     const taskInput = document.getElementById('task-input');
-//     const taskText = taskInput.value.trim();
-    
-//     if (taskText) {
-//       const taskContainer = document.querySelector('.todo-list');
-//       const currentDate = new Date();
-//       const formattedDate = `${currentDate.getDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentDate.getMonth()]} ${String(currentDate.getFullYear()).slice(2)}`;
-//       const formattedTime = `${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')} ${currentDate.getHours() >= 12 ? 'PM' : 'AM'}`;
-      
-//       const newTask = document.createElement('div');
-//       newTask.classList.add('task');
-//       newTask.innerHTML = `
-//         <div class="date-and-time">
-//           <p class="date">${formattedDate}</p>
-//           <p class="time">${formattedTime}</p>
-//         </div>
-//         <div class="task-description">
-//           <p>${taskText}</p>
-//         </div>
-//       `;
-      
-//       // Insert before the task-container or at the beginning
-//       const taskContainerElement = document.querySelector('.task-container');
-//       if (taskContainerElement) {
-//         taskContainer.insertBefore(newTask, taskContainerElement);
-//       } else {
-//         taskContainer.appendChild(newTask);
-//       }
-      
-//       // Clear input
-//       taskInput.value = '';
-//     }
-//   };
-  
-  // Setup event listeners for the entire application
   const setupEventListeners = () => {
-    // Tab buttons
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -411,8 +341,7 @@ const capitalizeFirstLetter = (string) => {
         applyFiltersAndRender();
       });
     });
-    
-    // Search functionality
+
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
     
@@ -431,29 +360,15 @@ const capitalizeFirstLetter = (string) => {
         }
       });
     }
-    
-    // Modal close functionality
+
     setupModalCloseHandlers();
     
-    // Add task functionality
-    // const taskInput = document.getElementById('task-input');
-    // const submitButton = document.querySelector('.submit-button');
-    
-    // if (taskInput && submitButton) {
-    //   submitButton.addEventListener('click', addNewTask);
-    //   taskInput.addEventListener('keyup', (e) => {
-    //     if (e.key === 'Enter') {
-    //       addNewTask();
-    //     }
-    //   });
-    // }
-    
-    // Add approve and deny button functionality
+
     setupApprovalButtons();
   };
   
   const setupModalCloseHandlers = () => {
-    // Set up modal close button
+
     const closeButtons = document.querySelectorAll('.close, .modal-close');
     closeButtons.forEach(btn => {
       if (btn) {
@@ -461,7 +376,7 @@ const capitalizeFirstLetter = (string) => {
       }
     });
   
-    // Close modal when clicking outside
+
     const modalOverlay = document.querySelector('.modal-section-overlay');
     if (modalOverlay) {
       modalOverlay.addEventListener('click', (event) => {
@@ -483,51 +398,29 @@ const capitalizeFirstLetter = (string) => {
   };
   
   const setupApprovalButtons = () => {
-    // Add event listeners for approve and deny buttons
     const approveButton = document.querySelector('.mspc-buttons-approve');
     const denyButton = document.querySelector('.mspc-buttons-deny');
     
     if (approveButton) {
       approveButton.addEventListener('click', () => {
-        // Here you would update the request status in the database
-        // alert('Request approved!');
-        // Optional: Close the modal after approving
         closeModal();
-        // Optional: Refresh data
         fetchData();
       });
     }
     
     if (denyButton) {
       denyButton.addEventListener('click', () => {
-        // Here you would update the request status in the database
-        // alert('Request denied!');
-        // Optional: Close the modal after denying
         closeModal();
-        // Optional: Refresh data
         fetchData();
       });
     }
   };
+
   
-  // Function to add a new subtrip
-  const addSubtrip = (employeeId, requestId) => {
-    // This would be implemented to add new subtrips to a travel request
-    console.log(`Adding new subtrip for employee ${employeeId} on request ${requestId}`);
-    
-    // Here you would show a form to collect subtrip details
-    // After collecting details, you would update the database
-    
-    // For now, just show an alert
-    alert('Add subtrip functionality would appear here');
-  };
-  
-  // Initialize the app
   document.addEventListener('DOMContentLoaded', () => {
     fetchData();
     setupEventListeners();
   });
-// document.addEventListener('DOMContentLoaded', function() {
     
     // ############################### Advait ##########################################
     
@@ -548,6 +441,7 @@ const capitalizeFirstLetter = (string) => {
     
             if (!tasksData) return;
     
+
             // Convert object to an array of tasks
             const tasksArray = Object.values(tasksData);
     
@@ -555,14 +449,19 @@ const capitalizeFirstLetter = (string) => {
             tasksArray.sort((a, b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
             const recentTasks = tasksArray.slice(0, 2);
     
-            // Update first task
+
+        
+            const task1 = document.getElementById("task-1");
+            const task2 = document.getElementById("task-2");
+    
+         
             if (recentTasks[0]) {
                 document.getElementById("task-1").querySelector(".date").textContent = recentTasks[0].date;
                 document.getElementById("task-1").querySelector(".time").textContent = recentTasks[0].time;
                 document.getElementById("task-1").querySelector(".task-description p").textContent = recentTasks[0].task;
             }
     
-            // Update second task
+     
             if (recentTasks[1]) {
                 document.getElementById("task-2").querySelector(".date").textContent = recentTasks[1].date;
                 document.getElementById("task-2").querySelector(".time").textContent = recentTasks[1].time;
@@ -650,7 +549,7 @@ const fetchAndUpdateNotifications = async () => {
       }
 
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Normalize time
+      today.setHours(0, 0, 0, 0); 
 
       const notifications = [];
 
@@ -673,7 +572,7 @@ const fetchAndUpdateNotifications = async () => {
           const timeDiff = expiryDate.getTime() - today.getTime();
           const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
-          // Only add employees whose passport is expired or expires in 30 days
+        
           if (daysLeft <= 30) {
               notifications.push({
                   name: employee.name,
@@ -685,9 +584,8 @@ const fetchAndUpdateNotifications = async () => {
           }
       });
 
-      // Update UI
       const notificationList = document.getElementById("notification-list");
-      notificationList.innerHTML = ""; // Clear previous notifications
+      notificationList.innerHTML = ""; 
 
       if (notifications.length === 0) {
           notificationList.innerHTML = "<p>No urgent passport expiries.</p>";
@@ -699,7 +597,7 @@ const fetchAndUpdateNotifications = async () => {
               notificationCard.innerHTML = `
                   <strong>${employee.name}</strong>
                   <p class="expiry">
-                      Passport Expires: <span class="${employee.isExpired ? 'expired' : ''}">
+                      Passport</br> expires in: <span class="${employee.isExpired ? 'expired' : ''}">
                           ${employee.isExpired ? "Expired" : employee.daysLeft}
                       </span>
                   </p>
@@ -721,7 +619,7 @@ function sendEmail(employeeEmail) {
     window.location.href = mailtoLink;
 }
 
-// Call function on page load
+
 fetchAndUpdateNotifications();
 
 //#######################GEORGE JOSE######################################################
@@ -773,7 +671,7 @@ async function fetchAndUpdateChart(year = currentYear, quarter = currentQuarter)
             }
         }
 
-        // Set min and max years only if years exist
+
         if (years.size > 0) {
             minYear = Math.min(...years);
             maxYear = Math.max(...years);
@@ -824,7 +722,7 @@ async function fetchAndUpdateChart(year = currentYear, quarter = currentQuarter)
     }
 }
 
-// Ensure the year display is set correctly on page load
+
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("yearDisplay").textContent = currentYear;
     fetchAndUpdateChart();
