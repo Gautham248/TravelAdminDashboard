@@ -44,11 +44,56 @@ body {
   width: 100%;
   height: 10%;
 }
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter .controls {
+  margin-top: 15px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter .controls .search-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 40%;
+}
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter .controls .search-container input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter .controls .tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter .controls .tab-btn {
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: #b1b1b1;
+}
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter .controls .tab-btn:hover {
+  background-color: #3498db;
+}
+.dashboard_main .central-tab .requestsection .requestsection-searchfilter .controls .tab-btn.active {
+  background-color: #3498db;
+  color: var(--white);
+}
 .dashboard_main .central-tab .requestsection .requestsection-allrequests {
-  height: 90%;
+  max-height: 90%;
+  overflow-y: auto;
 }
 .dashboard_main .notifications-graphs {
   width: 25%;
+  height: 100%;
 }
 .dashboard_main .notifications-graphs .notifications {
   width: 100%;
@@ -94,6 +139,33 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.notification-panel {
+  width: 300px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.notification-panel .notification-list .notification-card {
+  background: #f8d7da;
+  border-left: 5px solid #dc3545;
+  padding: 3px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.notification-panel .notification-list .notification-card strong {
+  display: block;
+  color: #721c24;
+}
+.notification-panel .notification-list .notification-card .expiry {
+  font-size: 14px;
+  color: #6c757d;
+}
+.notification-panel .notification-list .notification-card .expired {
+  color: red;
+  font-weight: bold;
 }
 
 .request {
@@ -180,11 +252,11 @@ body {
 }
 
 #chart-container {
-  width: 95%;
+  width: 300px;
   height: 100%;
   text-align: center;
-  padding-top: 50px;
-  margin-left: 10px;
+  padding-top: 70px;
+  padding-right: 20px;
   background-color: white;
   border-radius: 20px;
 }
@@ -249,8 +321,11 @@ body {
   padding-left: 10px;
 }
 .todo-list .heading-section .view-all {
-  padding-right: 10px;
-  color: blue;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: inline-block;
 }
 .todo-list .task {
   width: 100%;
@@ -313,10 +388,53 @@ body {
   height: 100%;
 }
 
+.task-overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+}
+.task-overlay .task-modal {
+  background: white;
+  width: 40%;
+  max-height: 80%;
+  padding: 20px;
+  border-radius: 7px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  overflow-y: auto;
+}
+.task-overlay .task-modal .close-task-modal {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 50px;
+  color: whitesmoke;
+}
+.task-overlay .task-modal .task-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+.task-overlay .task-modal .task-list li {
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
 .modal-section {
+  z-index: 5;
   overflow-y: auto;
   overflow-x: hidden;
-  z-index: 5;
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none;
 }
 .modal-section .modal-section-popup {
   inset: 0;

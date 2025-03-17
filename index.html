@@ -86,24 +86,24 @@
                 <div class="todo-list">
                     <div class="heading-section">
                         <h3 class="tasks-todo">Tasks to do</h3>
-                        <p class="view-all">View All</p>
+                        <button class="view-all">View All</button>
                     </div>
-                    <div class="task">
+                    <div class="task" id="task-1">
                         <div class="date-and-time">
-                            <p class="date">25 Mar 24</p>
-                            <p class="time">10:00 AM</p>
+                            <p class="date"></p>
+                            <p class="time"></p>
                         </div>
                         <div class="task-description">
-                            <p>Book flight tickets to Paris </p>
+                            <p></p>
                         </div>
                     </div>
-                    <div class="task">
+                    <div class="task" id="task-2">
                         <div class="date-and-time">
-                            <p class="date">25 Mar 24</p>
-                            <p class="time">10:00 AM</p>
+                            <p class="date"></p>
+                            <p class="time"></p>
                         </div>
                         <div class="task-description">
-                            <p>Research and book accomodations in Rome </p>
+                            <p></p>
                         </div>
                     </div>
                     <div class="task-container">
@@ -124,69 +124,38 @@
             <div class="requestsection">
                 <!-- CHRISTIA -->
                 <div class="requestsection-searchfilter">
-                    search and filter
-                </div>
-                <div class="requestsection-allrequests">
-                    <div class="request-card">
-                        <!-- Section: Employee Details -->
-                        <div class="request-card-employee">
-                            <div class="request-card-employeename">John Doe</div>
-                            <div class="request-card-employee-details">
-                                <div class="request-card-sourceanddestination">New york - California</div>
-                                <div class="request-card-traveldate">03-04-2025</div>
-                                <div class="request-card-projectcode">PC001</div>
-                                <div class="request-card-message">Passport Expires in 04-04-2025</div>
-                            </div>
+                    <div class="controls">
+                        <div class="search-container">
+                            <input type="text" id="search-input" placeholder="Search employees or destinations...">
+                            <button id="search-btn"><i class="fas fa-search"></i></button>
                         </div>
-             
-                        <!-- Section: Button -->
-                        <div class="request-card-sectionbutton">
-                            <button class="request-card-statusbutton">Pending</button>
-                        </div>
-                    </div>
-                    <div class="request-card">
-                        <!-- Section: Employee Details -->
-                        <div class="request-card-employee">
-                            <div class="request-card-employeename">Jane Smith</div>
-                            <div class="request-card-employee-details">
-                                <div class="request-card-sourceanddestination">New york - India</div>
-                                <div class="request-card-traveldate">04-06-2025</div>
-                                <div class="request-card-projectcode">PC002</div>
-                                <div class="request-card-message">Passport Expires in 16-03-2025</div>
-                            </div>
-                        </div>
-             
-                        <!-- Section: Button -->
-                        <div class="request-card-sectionbutton">
-                            <button class="request-card-statusbutton">Pending</button>
-                        </div>
-                    </div><div class="request-card">
-                        <!-- Section: Employee Details -->
-                        <div class="request-card-employee">
-                            <div class="request-card-employeename">Mark Johnson</div>
-                            <div class="request-card-employee-details">
-                                <div class="request-card-sourceanddestination">India - Japan</div>
-                                <div class="request-card-traveldate">11-09-2025</div>
-                                <div class="request-card-projectcode">PC003</div>
-                                <div class="request-card-message">Passport Expires in 24-04-2025</div>
-                            </div>
-                        </div>
-             
-                        <!-- Section: Button -->
-                        <div class="request-card-sectionbutton">
-                            <button class="request-card-statusbutton">Pending</button>
+                        
+                        <!-- Tabs -->
+                        <div class="tabs">
+                            <button class="tab-btn active" data-tab="all">All</button>
+                            <button class="tab-btn" data-tab="upcoming">Upcoming</button>
+                            <button class="tab-btn" data-tab="threats">Threats</button>
+                            <button class="tab-btn" data-tab="verified">Verified</button>
                         </div>
                     </div>
                 </div>
-                
+                <div class="requestsection-allrequests">    
+                         
+            </div>
             </div>
         </div>
+        <div class="notifications-graphs" >
+        <!-- Mahesh -->
         <div class="notifications-graphs">
             <div class="notifications">
-                Notifications
+                <div class="notification-panel">
+                    <h3 class="notification-title">Notifications</h3>
+                    <div id="notification-list" class="notification-list">
+                        <!-- Employee notifications will be added here -->
+                    </div>
+                </div>
             </div>
             <div class="graphs">
-                
                 <!-- GEORGE -->
                  <div id="chart-container">
                     <div class="year-controls">
@@ -204,10 +173,12 @@
                  </div>
                
             </div>
+         
+        </div>
+    
         </div>
     </div>
 
-    <!-- RIONA MARIA VARGHESE -->
 
     <div class="modal-section">
         <!-- The Modal PopUp Skeleton -->
@@ -250,6 +221,7 @@
                 <!-- Sub-Trip Details -->
                 <div class="modal-section-popup-content-sub-trip-details" id="modal-section-popup-content-sub-trip-details">
                     <div class="mspc-std-heading">Sub Trips</div>
+                    <div class="mspc-std-content"></div>
                 </div>
 
                 <!-- Ticket Link -->
@@ -268,6 +240,13 @@
     </div>
     <div class="modal-section-overlay hidden"></div>
   
+    <div class="task-overlay" >
+        <div class="task-modal">
+            <span class="close-task-modal">&times;</span>
+            <h3>All tasks</h3>
+            <ul class="task-list"></ul>
+        </div>
+    </div>
 
     <script src="dashboard.js"></script>
 </body>
